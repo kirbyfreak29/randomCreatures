@@ -14,14 +14,23 @@ public class Creature {
 	private Color color;
 	private Breeding breedingBehavior;
 	private float birthrate;
+	private int currentAge = 0;
+	private int maxAge;
+	private boolean dead = false;
 	
 	// Constructor
-	public Creature(int id, Shape shape, Color color, float birthrate) {
+	public Creature(int id, Shape shape, Color color, float birthrate, int maxAge) {
 		this.id = id;
 		this.shape = shape;
 		this.color = color;
 		this.birthrate = birthrate;
 		this.breedingBehavior = new BreedingSimple(this);
+		this.maxAge = maxAge;
+	}
+	
+	// "Destructor" (Get rid of all references to self)
+	public void destroy() {
+		breedingBehavior = null;
 	}
 	
 	// To be performed every step
@@ -30,6 +39,12 @@ public class Creature {
 		
 		// Use the current breeding behavior
 		breedingBehavior.breed(world);
+		
+		// Aging
+		if (currentAge == maxAge) {
+			dead = true;
+		}
+		currentAge++;
 		
 	}
 	
@@ -42,5 +57,6 @@ public class Creature {
 	
 	public int getID() { return id; }
 	public float getBirthrate() { return birthrate; }
+	public boolean getDead() { return dead; }
 	
 }

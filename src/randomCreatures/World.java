@@ -57,9 +57,12 @@ public class World {
 			}
 		}
 		
+		clearDeadCreatures();
+		
 	}
 	
 	// Needs to add a new randomly created Creature Factory to the list, create a random amount of creatures, and then add the id to the tree
+	// NOTE: Should I merge this together with populate world?
 	public void addNewSpecies() {
 		
 		// Add id to the tree and get the new factory (the FoodChain makes the new factory and adding the id to the tree)
@@ -90,6 +93,20 @@ public class World {
 		for(int i = 0; i < amount; i++) {
 			creatureLists.get(id).add(creatureFactories.get(id).createCreature());
 		}
+	}
+	
+	public void clearDeadCreatures() {
+		
+		// Run every creatures' run method
+		for(int i = 0; i < creatureLists.size(); i++) {
+			for(int j = 0; j < creatureLists.get(i).size(); j++) {
+				if (creatureLists.get(i).get(j).getDead() == true) {
+					creatureLists.get(i).get(j).destroy();
+					creatureLists.get(i).remove(j);
+				}
+			}
+		}
+		
 	}
 	
 	public void displayWorld() {
