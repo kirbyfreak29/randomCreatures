@@ -6,24 +6,21 @@ public class Main {
 		
 		World world = new World();
 		
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 5; i++) {
 			world.addNewSpecies();
 		}
 		
 		world.populateWorld();
 		
-		world.displayWorld();
-		System.out.println();
-		world.run();
-		System.out.println();
-		world.displayWorld();
+		int loopCount = 0;
 		
 		// Should be limited to a specific amount of loops per second eventually (should the world "frames" and graphical "frames" be
 		// set at different amounts per second?)
-		//while(true) {
-			//world.run();
+		while(true) {
+			world.run();
+			world.displayWorld();
 			//window.run();
-		//}
+		}
 		
 	}
 

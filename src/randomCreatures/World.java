@@ -93,16 +93,23 @@ public class World {
 	}
 	
 	public void displayWorld() {
+		
+		for(int i = 0; i < creatureLists.size() + 1; i++) {
+			System.out.println();
+		}
+		
 		int creatureCount = 0;
+		
 		// Output strings of everything
 		for(int i = 0; i < creatureLists.size(); i++) {
+			System.out.println("Creature " + i + ": " + creatureLists.get(i).size());
 			for(int j = 0; j < creatureLists.get(i).size(); j++) {
-				System.out.println(creatureLists.get(i).get(j));
 				creatureCount++;
 			}
 		}
 		
 		System.out.println("Total amount of creatures is: " + creatureCount);
+
 	}
 
 }

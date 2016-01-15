@@ -31,7 +31,7 @@ public class CreatureFactoryFactory {
 	}
 	
 	public float getRandomBirthrate() {
-		return (float) ThreadLocalRandom.current().nextDouble(.5);
+		return (float) ThreadLocalRandom.current().nextDouble(.15);
 	}
 
 }
