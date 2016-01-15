@@ -20,13 +20,18 @@ public class CreatureFactoryFactory {
 	public CreatureFactory createCreatureFactory(int id) {
 		int randomColor = getRandomIndex(colorList);
 		int randomShape = getRandomIndex(shapeList);
+		float birthrate = getRandomBirthrate();
 		
-		return new CreatureFactory(id, shapeList.get(randomShape), colorList.get(randomColor));
+		return new CreatureFactory(id, shapeList.get(randomShape), colorList.get(randomColor), birthrate);
 	}
 	
 	// Get a random index for the given list according to its size
 	public int getRandomIndex(List list) {
 		return ThreadLocalRandom.current().nextInt(0, list.size());
+	}
+	
+	public float getRandomBirthrate() {
+		return (float) ThreadLocalRandom.current().nextDouble(.5);
 	}
 
 }

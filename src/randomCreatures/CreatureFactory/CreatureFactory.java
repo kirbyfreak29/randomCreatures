@@ -10,17 +10,19 @@ public class CreatureFactory {
 	private int id;
 	private Color color;
 	private Shape shape;
+	private float birthrate;
 	
 	// Constructor
-	public CreatureFactory(int id, Shape shape, Color color) {
+	public CreatureFactory(int id, Shape shape, Color color, float birthrate) {
 		this.id = id;
 		this.shape = shape;
 		this.color = color;
+		this.birthrate = birthrate;
 	}
 	
 	// creates and returns a new Creature based on the Factory
 	public Creature createCreature() {
-		return new Creature(id, shape, color);
+		return new Creature(id, shape, color, birthrate);
 	}
 	
 	public int getID() {

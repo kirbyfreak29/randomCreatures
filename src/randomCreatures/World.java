@@ -24,6 +24,8 @@ public class World {
 	private List<Color> colorList;
 	private List<Shape> shapeList;
 	
+	
+	// Constructor
 	public World() {
 		
 		// Initialize lists of creature trait lists
@@ -43,14 +45,18 @@ public class World {
 		creatureFactories = new HashMap<Integer, CreatureFactory>();
 		
 		foodChain = new FoodChain(creatureFactoryFactory);
+	}
+	
+	// To be performed every step
+	public void run() {
 		
-		for(int i = 0; i < 10; i++) {
-			addNewSpecies();
+		// Run every creatures' run method
+		for(int i = 0; i < creatureLists.size(); i++) {
+			for(int j = 0; j < creatureLists.get(i).size(); j++) {
+				creatureLists.get(i).get(j).run(this);
+			}
 		}
 		
-		populateWorld();
-		
-		displayWorld();
 	}
 	
 	// Needs to add a new randomly created Creature Factory to the list, create a random amount of creatures, and then add the id to the tree
@@ -71,26 +77,32 @@ public class World {
 		
 		// Make a depth-first enumeration of the food chain tree
 		Enumeration e = ((DefaultMutableTreeNode) foodChain.getFoodChain().getRoot()).depthFirstEnumeration();
-		int id;
-		CreatureFactory currentFactory;
 		
 		// Loop through the enumeration and use the ids to populate each species
 		while(e.hasMoreElements()) {
-			id = (int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject();
-			currentFactory = creatureFactories.get(id);
-			for(int i = 0; i < ThreadLocalRandom.current().nextInt(1, 11); i++) {
-				creatureLists.get(id).add(currentFactory.createCreature());
-			}
+			// Gets the id from the current node creates a random amount of creatures of that species
+			addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), ThreadLocalRandom.current().nextInt(1, 11));
+		}
+	}
+	
+	// Adds the specified amount of creature instances
+	public void addCreature(int id, int amount) {
+		for(int i = 0; i < amount; i++) {
+			creatureLists.get(id).add(creatureFactories.get(id).createCreature());
 		}
 	}
 	
 	public void displayWorld() {
+		int creatureCount = 0;
 		// Output strings of everything
 		for(int i = 0; i < creatureLists.size(); i++) {
 			for(int j = 0; j < creatureLists.get(i).size(); j++) {
 				System.out.println(creatureLists.get(i).get(j));
+				creatureCount++;
 			}
 		}
+		
+		System.out.println("Total amount of creatures is: " + creatureCount);
 	}
 
 }
