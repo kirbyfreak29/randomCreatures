@@ -1,13 +1,16 @@
 package randomCreatures;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import randomCreatures.Creature.Creature;
+import randomCreatures.Creature.*;
 import randomCreatures.CreatureFactory.CreatureFactory;
+import randomCreatures.CreatureFactoryFactory.CreatureFactoryFactory;
 
 public class World {
 	
@@ -15,41 +18,46 @@ public class World {
 	private HashMap<Integer, List<Creature>> creatureLists;
 	private HashMap<Integer, CreatureFactory> creatureFactories;
 	private FoodChain foodChain;
+	private CreatureFactoryFactory creatureFactoryFactory;
+	
+	// Creature Trait Lists
+	private List<Color> colorList;
+	private List<Shape> shapeList;
 	
 	public World() {
+		
+		// Initialize lists of creature trait lists
+		colorList = new ArrayList<Color>();
+		colorList.add(new ColorBlue());
+		colorList.add(new ColorRed());
+		
+		shapeList = new ArrayList<Shape>();
+		shapeList.add(new ShapeSquare());
+		shapeList.add(new ShapeTriangle());
+		
+		// Create the Factory for making CreatureFactories
+		creatureFactoryFactory = new CreatureFactoryFactory(colorList, shapeList);
 		
 		// Create HashMap of Lists of Creatures
 		creatureLists = new HashMap<Integer, List<Creature>>();
 		creatureFactories = new HashMap<Integer, CreatureFactory>();
 		
-		foodChain = new FoodChain();
+		foodChain = new FoodChain(creatureFactoryFactory);
 		
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode)foodChain.getFoodChain().getRoot();
-		CreatureFactory nodeCreatureFactory = (CreatureFactory) root.getUserObject();
-		creatureLists.put(nodeCreatureFactory.getID(), new ArrayList<Creature>());
-		
-		for(int i = 0; i < 5; i++) {
-			creatureLists.get(nodeCreatureFactory.getID()).add(nodeCreatureFactory.createCreature());
+		for(int i = 0; i < 10; i++) {
+			addNewSpecies();
 		}
 		
-		DefaultMutableTreeNode rootChild;
+		populateWorld();
 		
-		for(int i = 0; i < 2; i++) {
-			rootChild = (DefaultMutableTreeNode) root.getChildAt(i);
-			nodeCreatureFactory = (CreatureFactory) rootChild.getUserObject();
-			creatureLists.put(nodeCreatureFactory.getID(), new ArrayList<Creature>());
-			
-			for(int j = 0; j < 2; j++) {
-				creatureLists.get(nodeCreatureFactory.getID()).add(nodeCreatureFactory.createCreature());
-			}
-		}
+		displayWorld();
 	}
 	
 	// Needs to add a new randomly created Creature Factory to the list, create a random amount of creatures, and then add the id to the tree
 	public void addNewSpecies() {
 		
 		// Add id to the tree and get the new factory (the FoodChain makes the new factory and adding the id to the tree)
-		CreatureFactory newFactory = foodChain.addCreatureFactory();
+		CreatureFactory newFactory = foodChain.addSpecies();
 		
 		// Add the new factory to the hash map with its id as the key
 		creatureFactories.put(newFactory.getID(), newFactory);
@@ -61,6 +69,19 @@ public class World {
 	// Loop through the FoodChain and add creatures for each node
 	public void populateWorld() {
 		
+		// Make a depth-first enumeration of the food chain tree
+		Enumeration e = ((DefaultMutableTreeNode) foodChain.getFoodChain().getRoot()).depthFirstEnumeration();
+		int id;
+		CreatureFactory currentFactory;
+		
+		// Loop through the enumeration and use the ids to populate each species
+		while(e.hasMoreElements()) {
+			id = (int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject();
+			currentFactory = creatureFactories.get(id);
+			for(int i = 0; i < ThreadLocalRandom.current().nextInt(1, 11); i++) {
+				creatureLists.get(id).add(currentFactory.createCreature());
+			}
+		}
 	}
 	
 	public void displayWorld() {

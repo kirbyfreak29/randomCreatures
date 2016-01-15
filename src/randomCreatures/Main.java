@@ -7,7 +7,6 @@ public class Main {
 		World world = new World();
 		world.addNewSpecies();
 		
-
 	}
 
 }

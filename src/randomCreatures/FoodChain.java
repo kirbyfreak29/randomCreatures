@@ -6,6 +6,7 @@ import javax.swing.tree.MutableTreeNode;
 
 import randomCreatures.Creature.*;
 import randomCreatures.CreatureFactory.CreatureFactory;
+import randomCreatures.CreatureFactoryFactory.CreatureFactoryFactory;
 /*
  * A representation of the food chains of creatures using a tree data structure,
  * with CreatureFactories (or some form of Creature ID?) contained in the nodes.
@@ -19,16 +20,16 @@ public class FoodChain {
 	
 	// Variables
 	private DefaultTreeModel foodChainTree;
+	private int nextAvailableId = 0;
+	private CreatureFactoryFactory creatureFactoryFactory;
 	
 	// Constructor
-	public FoodChain() {
+	public FoodChain(CreatureFactoryFactory creatureFactoryFactory) {
 		
-		// Create the tree with a CreatureFactory as a root
-		foodChainTree = new DefaultTreeModel(new DefaultMutableTreeNode(new CreatureFactory(0, new ShapeSquare(), new ColorBlue()), true));
+		this.creatureFactoryFactory = creatureFactoryFactory;
 		
-		// Add some CreatureFactories as nodes
-		((DefaultMutableTreeNode) foodChainTree.getRoot()).insert(new DefaultMutableTreeNode(new CreatureFactory(1, new ShapeTriangle(), new ColorBlue()), true), 0);
-		((DefaultMutableTreeNode) foodChainTree.getRoot()).insert(new DefaultMutableTreeNode(new CreatureFactory(2, new ShapeSquare(), new ColorRed()), true), 1);
+		// Create the tree with 0 as the root
+		foodChainTree = new DefaultTreeModel(new DefaultMutableTreeNode(nextAvailableId, true));
 		
 	}
 	
@@ -37,15 +38,21 @@ public class FoodChain {
 	}
 	
 	// Will eventually be passed a CreatureFactoryFactory to use?
-	public CreatureFactory addCreatureFactory() {
+	public CreatureFactory addSpecies() {
 		
-		// Make a creature factory here
+		// Change this so that it uses a creatureFactoryFactory instead
+		CreatureFactory newCreatureFactory  = creatureFactoryFactory.createCreatureFactory(nextAvailableId);
 		
-		// Get the id from the new creature factory and add it to the tree
-		foodChainTree.insertNodeInto(new DefaultMutableTreeNode(0, true), (MutableTreeNode) foodChainTree.getRoot(), 0);
+		// Add id to the tree (unless this is the first species, then just increase the id since we already have one)
+		if (nextAvailableId == 0) {
+			nextAvailableId++;
+		} else {
+			// Get the id from the new creature factory and add it to the tree
+			foodChainTree.insertNodeInto(new DefaultMutableTreeNode(nextAvailableId++, true), (MutableTreeNode) foodChainTree.getRoot(), 0);
+		}
 		
 		// Return the newly made creature factory
-		return (CreatureFactory) ((DefaultMutableTreeNode) foodChainTree.getRoot()).getUserObject();
+		return newCreatureFactory;
 		
 	}
 

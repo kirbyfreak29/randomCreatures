@@ -16,7 +16,7 @@ public class Creature {
 	
 	@Override
 	public String toString() {
-		return "Creature with id of " + Integer.toString(id) + ", with a shape of " + shape.toString() + " and a color of " + color.toString() + ".";
+		return "Creature with id of " + Integer.toString(id) + ", with a " + shape.toString() + " shape and the color of " + color.toString() + ".";
 	}
 	
 }
