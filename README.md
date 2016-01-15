@@ -9,3 +9,5 @@ have randomly generated attributes, with possibilities to mutate over time, but 
 be within the scope of this class’s project.  The user interface will hopefully be a graphical
 interface, with the ability to highlight a specific creature and follow it and see it’s
 attributes, but will start out as a terminal program.
+
+The design doc can be found at https://docs.google.com/document/d/1RmRsBeSFtPNQXBdCzFNB-8Wem3DsjrGCxDQ_pzKAxN8/edit?usp=sharing
