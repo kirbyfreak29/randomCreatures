@@ -1,10 +1,7 @@
 package randomCreatures.Creature;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import randomCreatures.World;
-import randomCreatures.Creature.Behaviors.Breeding;
-import randomCreatures.Creature.Behaviors.BreedingSimple;
+import randomCreatures.Creature.Behaviors.*;
 
 public class Creature {
 	
@@ -13,24 +10,31 @@ public class Creature {
 	private Shape shape;
 	private Color color;
 	private Breeding breedingBehavior;
+	private Eating eatingBehavior;
 	private float birthrate;
 	private int currentAge = 0;
 	private int maxAge;
 	private boolean dead = false;
+	private int size;
 	
 	// Constructor
-	public Creature(int id, Shape shape, Color color, float birthrate, int maxAge) {
+	public Creature(int id, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, float birthrate, int maxAge, int size) {
 		this.id = id;
 		this.shape = shape;
 		this.color = color;
+		this.breedingBehavior = breedingBehavior;
+		this.eatingBehavior = eatingBehavior;
 		this.birthrate = birthrate;
-		this.breedingBehavior = new BreedingSimple(this);
 		this.maxAge = maxAge;
+		this.size = size;
 	}
 	
 	// "Destructor" (Get rid of all references to self)
 	public void destroy() {
+		shape = null;
+		color = null;
 		breedingBehavior = null;
+		eatingBehavior = null;
 	}
 	
 	// To be performed every step
@@ -38,7 +42,7 @@ public class Creature {
 	public void run(World world) {
 		
 		// Use the current breeding behavior
-		breedingBehavior.breed(world);
+		breedingBehavior.breed(world, this);
 		
 		// Aging
 		if (currentAge == maxAge) {
@@ -50,7 +54,10 @@ public class Creature {
 	
 	@Override
 	public String toString() {
-		return "Creature with id of " + Integer.toString(id) + ", with a " + shape.toString() + " shape, the color of " + color.toString() + " and a birthrate of " + birthrate + ".";
+		return "Creature with id of " + Integer.toString(id) + ", with a " + shape.toString() + " shape, the color of " + color.toString() + 
+				" a birthrate of " + birthrate + ", and a max age of " + maxAge + ".\n\t" + "It has a " + breedingBehavior + " and a " + 
+				eatingBehavior + ".";
+				
 	}
 	
 	// Getters and Setters //

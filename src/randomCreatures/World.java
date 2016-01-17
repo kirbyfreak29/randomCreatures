@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import randomCreatures.Creature.*;
+import randomCreatures.Creature.Behaviors.*;
 import randomCreatures.CreatureFactory.CreatureFactory;
 import randomCreatures.CreatureFactoryFactory.CreatureFactoryFactory;
 
@@ -23,7 +24,6 @@ public class World {
 	// Creature Trait Lists
 	private List<Color> colorList;
 	private List<Shape> shapeList;
-	
 	
 	// Constructor
 	public World() {
@@ -119,7 +119,7 @@ public class World {
 		
 		// Output strings of everything
 		for(int i = 0; i < creatureLists.size(); i++) {
-			System.out.println("Creature " + i + ": " + creatureLists.get(i).size());
+			System.out.println("Species " + i + ": " + creatureLists.get(i).size());
 			for(int j = 0; j < creatureLists.get(i).size(); j++) {
 				creatureCount++;
 			}
@@ -127,6 +127,15 @@ public class World {
 		
 		System.out.println("Total amount of creatures is: " + creatureCount);
 
+	}
+	
+	public void displaySpecies() {
+		// Output strings of everything
+		for(int i = 0; i < creatureLists.size(); i++) {
+			if(creatureLists.get(i).size() > 0) {
+				System.out.println("Species " + i + ": " + creatureLists.get(i).get(0));
+			}
+		}
 	}
 
 }
