@@ -12,15 +12,15 @@ public class Main {
 		
 		world.populateWorld();
 		
-		world.displaySpecies();
+		//world.displaySpecies();
 		
 		// Should be limited to a specific amount of loops per second eventually (should the world "frames" and graphical "frames" be
 		// set at different amounts per second?)
-//		while(true) {
-//			world.run();
-//			world.displayWorld();
-//			//window.run();
-//		}
+		while(true) {
+			world.run();
+			world.displayWorld();
+			//window.run();
+		}
 //		
 	}
 

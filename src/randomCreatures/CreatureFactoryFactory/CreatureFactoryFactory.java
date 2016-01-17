@@ -28,8 +28,11 @@ public class CreatureFactoryFactory {
 		float birthrate = (float) getRandomDouble(.01, .05);
 		int maxAge = getRandomInt(500, 1500);
 		int size = getRandomInt(1, 5);
+		int maxHunger = getRandomInt(500, 800);
+		int hungerLossRate = getRandomInt(1, 5);
 		
-		return new CreatureFactory(id, shapeList.get(randomShape), colorList.get(randomColor), eatingBehavior, breedingBehavior, birthrate, maxAge, size);
+		return new CreatureFactory(id, shapeList.get(randomShape), colorList.get(randomColor), eatingBehavior, breedingBehavior, birthrate, 
+				maxAge, size, maxHunger, hungerLossRate);
 	}
 	
 	// Get a random index for the given list according to its size

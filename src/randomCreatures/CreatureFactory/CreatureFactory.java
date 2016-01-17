@@ -16,9 +16,12 @@ public class CreatureFactory {
 	private int size;
 	private Eating eatingBehavior;
 	private Breeding breedingBehavior;
+	private int maxHunger;
+	private int hungerLossRate;
 	
 	// Constructor
-	public CreatureFactory(int id, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, float birthrate, int maxAge, int size) {
+	public CreatureFactory(int id, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, float birthrate, int maxAge, 
+			int size, int maxHunger, int hungerLossRate) {
 		this.id = id;
 		this.shape = shape;
 		this.color = color;
@@ -27,11 +30,13 @@ public class CreatureFactory {
 		this.birthrate = birthrate;
 		this.maxAge = maxAge;
 		this.size = size;
+		this.maxHunger = maxHunger;
+		this.hungerLossRate = hungerLossRate;
 	}
 	
 	// creates and returns a new Creature based on the Factory
 	public Creature createCreature() {
-		return new Creature(id, shape, color, eatingBehavior, breedingBehavior, birthrate, maxAge, size);
+		return new Creature(id, shape, color, eatingBehavior, breedingBehavior, birthrate, maxAge, size, maxHunger, hungerLossRate);
 	}
 	
 	public int getID() {

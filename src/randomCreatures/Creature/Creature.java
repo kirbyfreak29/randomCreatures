@@ -16,9 +16,13 @@ public class Creature {
 	private int maxAge;
 	private boolean dead = false;
 	private int size;
+	private int maxHunger;
+	private int currentHunger;
+	private int hungerLossRate;
 	
 	// Constructor
-	public Creature(int id, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, float birthrate, int maxAge, int size) {
+	public Creature(int id, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, float birthrate, int maxAge, 
+			int size, int maxHunger, int hungerLossRate) {
 		this.id = id;
 		this.shape = shape;
 		this.color = color;
@@ -27,6 +31,8 @@ public class Creature {
 		this.birthrate = birthrate;
 		this.maxAge = maxAge;
 		this.size = size;
+		this.maxHunger = this.currentHunger = maxHunger;
+		this.hungerLossRate = hungerLossRate;
 	}
 	
 	// "Destructor" (Get rid of all references to self)
@@ -49,6 +55,17 @@ public class Creature {
 			dead = true;
 		}
 		currentAge++;
+		
+		// Hunger
+		if (currentHunger > 0) {
+			currentHunger += eatingBehavior.findFood(world).getFoodValue();
+			if (currentHunger > maxHunger) {
+				currentHunger = maxHunger;
+			}
+			currentHunger -= hungerLossRate;
+		} else {
+			dead = true;
+		}
 		
 	}
 	
