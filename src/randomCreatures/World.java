@@ -9,6 +9,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import randomCreatures.Creature.*;
+import randomCreatures.Creature.Attributes.Color;
+import randomCreatures.Creature.Attributes.ColorBlue;
+import randomCreatures.Creature.Attributes.ColorRed;
+import randomCreatures.Creature.Attributes.Shape;
+import randomCreatures.Creature.Attributes.ShapeSquare;
+import randomCreatures.Creature.Attributes.ShapeTriangle;
 import randomCreatures.Creature.Behaviors.*;
 import randomCreatures.CreatureFactory.CreatureFactory;
 import randomCreatures.CreatureFactoryFactory.CreatureFactoryFactory;
@@ -19,6 +25,8 @@ public class World {
 	private HashMap<Integer, List<Creature>> creatureLists;
 	private HashMap<Integer, CreatureFactory> creatureFactories;
 	private FoodChain foodChain;
+	private int plantAmount;
+	private int plantCap;
 	private CreatureFactoryFactory creatureFactoryFactory;
 	
 	// Creature Trait Lists
@@ -45,6 +53,10 @@ public class World {
 		creatureFactories = new HashMap<Integer, CreatureFactory>();
 		
 		foodChain = new FoodChain(creatureFactoryFactory);
+		
+		//plantAmount = ThreadLocalRandom.current().nextInt(500, 1000);
+		plantAmount = ThreadLocalRandom.current().nextInt(20, 50);
+		plantCap = 20000;
 	}
 	
 	// To be performed every step
@@ -57,7 +69,10 @@ public class World {
 			}
 		}
 		
+		// Update World
 		clearDeadCreatures();
+		birthCreatures();
+		growMorePlants();
 		
 	}
 	
@@ -84,7 +99,8 @@ public class World {
 		// Loop through the enumeration and use the ids to populate each species
 		while(e.hasMoreElements()) {
 			// Gets the id from the current node creates a random amount of creatures of that species
-			addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), ThreadLocalRandom.current().nextInt(1, 11));
+			//addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), ThreadLocalRandom.current().nextInt(50, 300));
+			addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), 5);
 		}
 	}
 	
@@ -109,6 +125,37 @@ public class World {
 		
 	}
 	
+	public Food getPlant() {
+		if (plantAmount > 0) {
+			plantAmount--;
+			return new Food(ThreadLocalRandom.current().nextInt(10, 15));
+		} else {
+			//System.out.println("returned blank food");
+			return new Food(0);
+		}
+	}
+	
+	public void growMorePlants() {
+		//plantAmount += ThreadLocalRandom.current().nextInt(300, 500);
+		plantAmount += ThreadLocalRandom.current().nextInt(10, 15);
+		if (plantAmount > plantCap) {
+			plantAmount = plantCap;
+		}
+	}
+	
+	public void addCreatureToBirthList(int id, int amount) {
+		creatureFactories.get(id).addCreatureToBirthList(amount);
+	}
+	
+	public void birthCreatures() {
+		for(int i = 0; i < creatureFactories.size(); i++) {
+			int birthAmount = creatureFactories.get(i).getBirthList();
+			for(int j = 0; j < birthAmount; j++) {
+				creatureLists.get(i).add(creatureFactories.get(i).createCreature());
+			}
+		}
+	}
+	
 	public void displayWorld() {
 		
 		for(int i = 0; i < creatureLists.size() + 1; i++) {
@@ -119,13 +166,14 @@ public class World {
 		
 		// Output strings of everything
 		for(int i = 0; i < creatureLists.size(); i++) {
-			System.out.println("Species " + i + ": " + creatureLists.get(i).size());
+			System.out.println("Species " + i + " (" + creatureFactories.get(i).getEatingBehaviorLetter() + "): " + creatureLists.get(i).size());
 			for(int j = 0; j < creatureLists.get(i).size(); j++) {
 				creatureCount++;
 			}
 		}
 		
 		System.out.println("Total amount of creatures is: " + creatureCount);
+		System.out.println("Plant amount: " + plantAmount);
 
 	}
 	
@@ -133,8 +181,18 @@ public class World {
 		// Output strings of everything
 		for(int i = 0; i < creatureLists.size(); i++) {
 			if(creatureLists.get(i).size() > 0) {
-				System.out.println("Species " + i + ": " + creatureLists.get(i).get(0));
+				System.out.println("Species " + i + ":" + creatureLists.get(i).get(0));
 			}
+		}
+	}
+	
+	// Gets a random creature (currently used temporarily for finding a creature to eat)
+	public Creature getRandomCreature() {
+		List<Creature> randomSpecies = creatureLists.get(ThreadLocalRandom.current().nextInt(0, creatureLists.size()));
+		if (randomSpecies.size() > 0) {
+			return randomSpecies.get(ThreadLocalRandom.current().nextInt(0, randomSpecies.size()));
+		} else {
+			return getRandomCreature();
 		}
 	}
 

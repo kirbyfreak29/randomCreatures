@@ -1,5 +1,6 @@
 package randomCreatures.Creature.Behaviors;
 
+import randomCreatures.Food;
 import randomCreatures.World;
 import randomCreatures.Creature.Creature;
 
@@ -12,11 +13,14 @@ public EatingNull() {
 	public String toString() {
 		return "null eating behavior";
 	}
-
+	
+	public String getLetter() {
+		return "N";
+	}
 
 	@Override
-	public void findFood(World world) {
-		
+	public Food findFood(World world) {
+		return new Food(0);
 	}
 
 }
