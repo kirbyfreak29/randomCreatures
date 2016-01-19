@@ -14,12 +14,15 @@ public class EatingCarnivore implements Eating {
 	public String toString() {
 		return "carnivorous eating behavior";
 	}
+	
+	public String getLetter() {
+		return "C";
+	}
 
 	@Override
 	public Food findFood(World world) {
-		
-		if (ThreadLocalRandom.current().nextInt(0, 100) <= 5) {
-			return new Food(ThreadLocalRandom.current().nextInt(20, 30));
+		if (ThreadLocalRandom.current().nextInt(0, 100) <= 0) {
+			return world.getRandomCreature().beEaten();
 		} else {
 			return new Food(0);
 		}

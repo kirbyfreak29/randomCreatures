@@ -13,7 +13,10 @@ public EatingNull() {
 	public String toString() {
 		return "null eating behavior";
 	}
-
+	
+	public String getLetter() {
+		return "N";
+	}
 
 	@Override
 	public Food findFood(World world) {

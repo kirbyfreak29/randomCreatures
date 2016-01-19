@@ -1,4 +1,4 @@
-package randomCreatures.Creature;
+package randomCreatures.Creature.Attributes;
 
 public class ShapeSquare implements Shape {
 	

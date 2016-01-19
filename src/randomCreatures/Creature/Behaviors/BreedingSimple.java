@@ -17,10 +17,8 @@ public class BreedingSimple implements Breeding {
 
 	@Override
 	public void breed(World world, Creature creature) {
-		if ((float) ThreadLocalRandom.current().nextDouble(1) <= (.1)) {
-			if ((float) ThreadLocalRandom.current().nextDouble(1) <= (creature.getBirthrate())) {
-				world.addCreature(creature.getID(), 1);
-			}
+		if (ThreadLocalRandom.current().nextDouble(1.0) <= (creature.getBirthrate())) {
+			world.addCreatureToBirthList(creature.getID(), creature.getLitterSize());
 		}
 	}
 

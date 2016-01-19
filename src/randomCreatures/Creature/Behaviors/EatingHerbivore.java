@@ -1,7 +1,5 @@
 package randomCreatures.Creature.Behaviors;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import randomCreatures.Food;
 import randomCreatures.World;
 
@@ -15,15 +13,14 @@ public class EatingHerbivore implements Eating {
 		return "herbivorous eating behavior";
 	}
 
+	public String getLetter() {
+		return "H";
+	}
 
 	@Override
 	public Food findFood(World world) {
 		
-		if (ThreadLocalRandom.current().nextInt(0, 100) <= 20) {
-			return new Food(ThreadLocalRandom.current().nextInt(5, 10));
-		} else {
-			return new Food(0);
-		}
+		return world.getPlant();
 		
 	}
 
