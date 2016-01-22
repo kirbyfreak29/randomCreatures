@@ -1,6 +1,7 @@
 package randomCreatures;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ public class World {
 	// Variables
 	private HashMap<Integer, List<Creature>> creatureLists;
 	private HashMap<Integer, CreatureFactory> creatureFactories;
+	private ArrayList<Creature> allCreatures;
 	private FoodChain foodChain;
 	private int plantAmount;
 	private int plantCap;
@@ -55,7 +57,7 @@ public class World {
 		foodChain = new FoodChain(creatureFactoryFactory);
 		
 		//plantAmount = ThreadLocalRandom.current().nextInt(500, 1000);
-		plantAmount = ThreadLocalRandom.current().nextInt(20, 50);
+		plantAmount = 1000; //ThreadLocalRandom.current().nextInt(50, 100);
 		plantCap = 20000;
 	}
 	
@@ -63,11 +65,22 @@ public class World {
 	public void run() {
 		
 		// Run every creatures' run method
+		allCreatures = new ArrayList<Creature>();
 		for(int i = 0; i < creatureLists.size(); i++) {
-			for(int j = 0; j < creatureLists.get(i).size(); j++) {
-				creatureLists.get(i).get(j).run(this);
-			}
+			allCreatures.addAll(creatureLists.get(i));
 		}
+		
+		Collections.shuffle(allCreatures);
+		
+		for(int i = 0; i < allCreatures.size(); i++) {
+			allCreatures.get(i).run(this);
+		}
+		
+//		for(int i = 0; i < creatureLists.size(); i++) {
+//			for(int j = 0; j < creatureLists.get(i).size(); j++) {
+//				creatureLists.get(i).get(j).run(this);
+//			}
+//		}
 		
 		// Update World
 		clearDeadCreatures();
@@ -100,7 +113,7 @@ public class World {
 		while(e.hasMoreElements()) {
 			// Gets the id from the current node creates a random amount of creatures of that species
 			//addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), ThreadLocalRandom.current().nextInt(50, 300));
-			addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), 5);
+			addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), 25);
 		}
 	}
 	
@@ -137,7 +150,7 @@ public class World {
 	
 	public void growMorePlants() {
 		//plantAmount += ThreadLocalRandom.current().nextInt(300, 500);
-		plantAmount += ThreadLocalRandom.current().nextInt(10, 15);
+		plantAmount += ThreadLocalRandom.current().nextInt(200, 500);
 		if (plantAmount > plantCap) {
 			plantAmount = plantCap;
 		}

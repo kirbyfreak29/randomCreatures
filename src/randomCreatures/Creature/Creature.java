@@ -70,6 +70,7 @@ public class Creature {
 		
 		// Hunger
 		if (!dead) {
+			currentHunger -= hungerLossRate;
 			if (currentHunger > 0) {
 				if (ThreadLocalRandom.current().nextInt(0, 100) < 70) {
 					currentHunger += eatingBehavior.findFood(world).getFoodValue();
@@ -77,7 +78,6 @@ public class Creature {
 				if (currentHunger > maxHunger) {
 					currentHunger = maxHunger;
 				}
-				currentHunger -= hungerLossRate;
 			} else {
 				dead = true;
 			}

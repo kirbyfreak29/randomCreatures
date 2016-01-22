@@ -21,7 +21,7 @@ public class EatingCarnivore implements Eating {
 
 	@Override
 	public Food findFood(World world) {
-		if (ThreadLocalRandom.current().nextInt(0, 100) <= 0) {
+		if (ThreadLocalRandom.current().nextInt(0, 100) <= 10) {
 			return world.getRandomCreature().beEaten();
 		} else {
 			return new Food(0);

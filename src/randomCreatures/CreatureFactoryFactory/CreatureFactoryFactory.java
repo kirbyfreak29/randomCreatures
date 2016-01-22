@@ -33,13 +33,21 @@ public class CreatureFactoryFactory {
 		
 		Breeding breedingBehavior = breedingFactory.createBreeding(getRandomInt(0, breedingFactory.getSize()));
 		
-		int litterSize = getRandomInt(1, 5);
-		double birthrate = getRandomDouble(.01, .1);
-		int maxAge = getRandomInt(50, 150);
-		int size = getRandomInt(1, 5);
-		int maxHunger = getRandomInt(30, 70);
-		int hungerLossRate = getRandomInt(3, 8);
-		int foodValue = getRandomInt(30, 50) * size;
+//		int litterSize = getRandomInt(1, 5);
+//		double birthrate = getRandomDouble(.01, .1);
+//		int maxAge = getRandomInt(50, 150);
+//		int size = getRandomInt(1, 5);
+//		int maxHunger = getRandomInt(30, 70);
+//		int hungerLossRate = getRandomInt(3, 8);
+//		int foodValue = getRandomInt(30, 50) * size;
+		
+		int litterSize = 1;
+		double birthrate = .1;
+		int maxAge = 100;
+		int size = 3;
+		int maxHunger = 100;
+		int hungerLossRate = 5;
+		int foodValue = 200 * size;
 		
 		return new CreatureFactory(id, shapeList.get(randomShape), colorList.get(randomColor), eatingBehavior, breedingBehavior, litterSize, birthrate, 
 				maxAge, size, maxHunger, hungerLossRate, foodValue);
