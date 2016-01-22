@@ -1,5 +1,9 @@
 package randomCreatures.CreatureFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 import randomCreatures.Creature.Creature;
 import randomCreatures.Creature.Attributes.Color;
 import randomCreatures.Creature.Attributes.Shape;
@@ -22,10 +26,12 @@ public class CreatureFactory {
 	private int foodValue;
 	
 	private int toBeBirthed = 0;
+	private Stack<Integer> toBeBirthedX = new Stack<Integer>();
+	private Stack<Integer> toBeBirthedY = new Stack<Integer>();
 	
 	// Constructor
-	public CreatureFactory(int id, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, int litterSize, double birthrate, int maxAge, 
-			int size, int maxHunger, int hungerLossRate, int foodValue) {
+	public CreatureFactory(int id, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, int litterSize, 
+			double birthrate, int maxAge, int size, int maxHunger, int hungerLossRate, int foodValue) {
 		this.id = id;
 		this.shape = shape;
 		this.color = color;
@@ -41,12 +47,20 @@ public class CreatureFactory {
 	}
 	
 	// creates and returns a new Creature based on the Factory
-	public Creature createCreature() {
-		return new Creature(id, shape, color, eatingBehavior, breedingBehavior, litterSize, birthrate, maxAge, size, maxHunger, hungerLossRate, foodValue);
+	public Creature createCreature(int x, int y) {
+		return new Creature(id, x, y, shape, color, eatingBehavior, breedingBehavior, litterSize, birthrate, maxAge, size, 
+				maxHunger, hungerLossRate, foodValue);
 	}
 	
-	public void addCreatureToBirthList(int amount) {
+	public Creature createCreatureFromBirthList() {
+		return new Creature(id, toBeBirthedX.pop(), toBeBirthedY.pop(), shape, color, eatingBehavior, breedingBehavior, litterSize, birthrate, maxAge, size, 
+				maxHunger, hungerLossRate, foodValue);
+	}
+	
+	public void addCreatureToBirthList(int amount, int x, int y) {
 		toBeBirthed += amount;
+		toBeBirthedX.push(x);
+		toBeBirthedY.push(y);
 	}
 	
 	public int getID() {

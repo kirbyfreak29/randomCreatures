@@ -16,21 +16,22 @@ public class Creature {
 	private Color color;
 	private Breeding breedingBehavior;
 	private Eating eatingBehavior;
+	
 	private double birthrate;
 	private int litterSize;
 	private int currentAge = 0;
 	private int maxAge;
 	private boolean dead = false;
 	private int size;
-	private int maxHunger;
-	private int currentHunger;
-	private int hungerLossRate;
-	private int foodValue;
+	private int maxHunger, currentHunger, hungerLossRate, foodValue;
+	private int x, y;
 	
 	// Constructor
-	public Creature(int id, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, int litterSize, double birthrate, int maxAge, 
+	public Creature(int id, int x, int y, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, int litterSize, double birthrate, int maxAge, 
 			int size, int maxHunger, int hungerLossRate, int foodValue) {
 		this.id = id;
+		this.x = x;
+		this.y = y;
 		this.shape = shape;
 		this.color = color;
 		this.breedingBehavior = breedingBehavior;
@@ -112,5 +113,7 @@ public class Creature {
 	public double getBirthrate() { return birthrate; }
 	public int getLitterSize() { return litterSize; }
 	public boolean getDead() { return dead; }
+	public int getX() { return x; }
+	public int getY() { return y; }
 	
 }

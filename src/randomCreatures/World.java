@@ -31,6 +31,9 @@ public class World {
 	private int plantCap;
 	private CreatureFactoryFactory creatureFactoryFactory;
 	
+	private final int WORLD_WIDTH = 50;
+	private final int WORLD_LENGTH = 50;
+	
 	// Creature Trait Lists
 	private List<Color> colorList;
 	private List<Shape> shapeList;
@@ -113,14 +116,15 @@ public class World {
 		while(e.hasMoreElements()) {
 			// Gets the id from the current node creates a random amount of creatures of that species
 			//addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), ThreadLocalRandom.current().nextInt(50, 300));
-			addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), 25);
+			addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), 25, 
+					ThreadLocalRandom.current().nextInt(0, WORLD_WIDTH + 1), ThreadLocalRandom.current().nextInt(0, WORLD_LENGTH + 1));
 		}
 	}
 	
 	// Adds the specified amount of creature instances
-	public void addCreature(int id, int amount) {
+	public void addCreature(int id, int amount, int x, int y) {
 		for(int i = 0; i < amount; i++) {
-			creatureLists.get(id).add(creatureFactories.get(id).createCreature());
+			creatureLists.get(id).add(creatureFactories.get(id).createCreature(x, y));
 		}
 	}
 	
@@ -156,15 +160,15 @@ public class World {
 		}
 	}
 	
-	public void addCreatureToBirthList(int id, int amount) {
-		creatureFactories.get(id).addCreatureToBirthList(amount);
+	public void addCreatureToBirthList(int id, int amount, int x, int y) {
+		creatureFactories.get(id).addCreatureToBirthList(amount, x, y);
 	}
 	
 	public void birthCreatures() {
 		for(int i = 0; i < creatureFactories.size(); i++) {
 			int birthAmount = creatureFactories.get(i).getBirthList();
 			for(int j = 0; j < birthAmount; j++) {
-				creatureLists.get(i).add(creatureFactories.get(i).createCreature());
+				creatureLists.get(i).add(creatureFactories.get(i).createCreatureFromBirthList());
 			}
 		}
 	}
