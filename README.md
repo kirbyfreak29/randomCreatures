@@ -1,5 +1,5 @@
 # randomCreatures
-An food chain simulation with randomly generated creatures.
+A food chain simulation with randomly generated creatures.
 
 The food chain simulation will model creatures who feed on and are fed on by each other.
 In its most basic form, the simulation will use concrete numbers of creatures, and changes
