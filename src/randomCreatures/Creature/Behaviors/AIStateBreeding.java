@@ -7,9 +7,12 @@ public class AIStateBreeding implements AIState {
 
 	@Override
 	public void run(World world, Creature creature) {
+		// If hunger is high enough, breed
 		if ((creature.getCurrentHunger() / (double) creature.getMaxHunger()) > 0.7) {
-//			System.out.println(currentHunger / (double) maxHunger);
 			creature.getBreedingBehavior().breed(world, creature);
+		// If hunger is too low, start looking for food
+		} else {
+			creature.setState(creature.getHuntingState());
 		}
 	}
 

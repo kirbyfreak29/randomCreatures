@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 public class Plant {
 	
 	private int x, y, foodValue, foodAmount, tileOffsetX, tileOffsetY;
+	private boolean isDepleted = false;
 	
 	public Plant(int x, int y, int foodValue, int foodAmount, int tileSize) {
 		this.x = x;
@@ -24,11 +25,23 @@ public class Plant {
 	
 	public Food getEaten() {
 		foodAmount--;
+		if (foodAmount <= 0) {
+			isDepleted = true;
+		}
 		return new Food(foodValue);
+	}
+	
+	public boolean doesPlantExist() {
+		if (foodAmount > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public int getFoodAmount() { return foodAmount; }
 	public int getX() { return x; }
 	public int getY() { return y; }
+	public boolean getDepleted() { return isDepleted; }
 	
 }

@@ -21,7 +21,7 @@ public class EatingHerbivore implements Eating {
 	@Override
 	public Food findFood(World world) {
 		
-		return world.getPlantName();
+		return world.getFoodFromRandomPlant();
 		
 	}
 	

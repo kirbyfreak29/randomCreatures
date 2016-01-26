@@ -50,9 +50,9 @@ public class CreatureFactoryFactory {
 		
 		int litterSize = 1;
 		double birthrate = .1;
-		int maxAge = 100;
+		int maxAge = 300;
 		int size = 3;
-		int maxHunger = 100;
+		int maxHunger = 500;
 		int hungerLossRate = 5;
 		int foodValue = 200 * size;
 		

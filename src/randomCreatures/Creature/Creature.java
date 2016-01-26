@@ -20,6 +20,11 @@ public class Creature {
 	private Breeding breedingBehavior;
 	private Eating eatingBehavior;
 	
+	private AIState breedingState = new AIStateBreeding();
+	private AIState eatingState = new AIStateEating();
+	private AIState huntingState = new AIStateHunting();
+	private AIState currentState = huntingState;
+	
 	private double birthrate;
 	private int litterSize;
 	private int currentAge = 0;
@@ -63,11 +68,11 @@ public class Creature {
 	// Unsure if giving the Creature access to the world is safe...
 	public void run(World world) {
 		
-		// Use the current breeding behavior
-		if ((currentHunger / (double) maxHunger) > 0.7) {
-//			System.out.println(currentHunger / (double) maxHunger);
-			breedingBehavior.breed(world, this);
-		}
+//		// Use the current breeding behavior
+//		if ((currentHunger / (double) maxHunger) > 0.7) {
+////			System.out.println(currentHunger / (double) maxHunger);
+//			breedingBehavior.breed(world, this);
+//		}
 		
 		// Aging
 		if (currentAge == maxAge) {
@@ -78,33 +83,13 @@ public class Creature {
 		// Hunger
 		if (!dead) {
 			currentHunger -= hungerLossRate;
-			if (currentHunger > 0) {
-				if (ThreadLocalRandom.current().nextInt(0, 100) < 70) {
-					currentHunger += eatingBehavior.findFood(world).getFoodValue();
-				}
-				if (currentHunger > maxHunger) {
-					currentHunger = maxHunger;
-				}
-			} else {
+			if (currentHunger <= 0) {
 				dead = true;
 			}
 		}
 		
-		// Randomly move
-		int moveX = ThreadLocalRandom.current().nextInt(0, 3);
-		int moveY = ThreadLocalRandom.current().nextInt(0, 3);
-		
-		if (moveX == 0) {
-			x += 1;
-		} else if (moveX == 1) {
-			x -= 1;
-		}
-		
-		if (moveY == 0) {
-			y += 1;
-		} else if (moveY == 1) {
-			y -= 1;
-		}
+		// Run current state's AI
+		currentState.run(world, this);
 		
 		// Loop creature around to opposite end of the world if they go past it
 		if (x < 0) {
@@ -119,6 +104,14 @@ public class Creature {
 			y = 0;
 		}
 		
+	}
+	
+	public void creatureEat(Food food) {
+		currentHunger += food.getFoodValue();
+		
+		if (currentHunger > maxHunger) {
+			currentHunger = maxHunger;
+		}
 	}
 	
 	public void displayGraphics(Graphics g, int tileSize) {
@@ -161,9 +154,16 @@ public class Creature {
 	public Eating getEatingBehavior() { return eatingBehavior; }
 	public Plant getPlantToFind() { return plantToFind; }
 	public Creature getCreatureToFind() { return creatureToFind; }
+	public AIState getBreedingState() { return breedingState; }
+	public AIState getEatingState() { return eatingState; }
+	public AIState getHuntingState() { return huntingState; }
+	public AIState getCurrentState() { return currentState; }
 	
-	public void setPlantToFind(Plant plant) { plantToFind = plant; }
-	public void setCreatureToFind(Creature creature) { creatureToFind = creature; }
+	public void setPlantToFind(Plant plant) { this.plantToFind = plant; }
+	public void setCreatureToFind(Creature creature) { this.creatureToFind = creature; }
+	public void setState(AIState state) { this.currentState = state; }
+	public void shiftX(int x) { this.x += x; }
+	public void shiftY(int y) { this.y += y; }
 	
 	
 }

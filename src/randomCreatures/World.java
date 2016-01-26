@@ -97,6 +97,7 @@ public class World {
 		
 		// Update World
 		clearDeadCreatures();
+		clearDeadPlants();
 		birthCreatures();
 		growMorePlants();
 		
@@ -152,19 +153,21 @@ public class World {
 		
 	}
 	
-	public Food getPlantName() {
+	public void clearDeadPlants() {
+		for(int i = 0; i < plantList.size(); i++) {
+			if (plantList.get(i).getDepleted()) {
+				plantList.remove(i);
+			}
+		}
+	}
+	
+	public Food getFoodFromRandomPlant() {
 		if (plantList.size() > 0) {
 			
 			// Get food from a random plant
 			int randomPlant = ThreadLocalRandom.current().nextInt(0, plantList.size());
-			Food food = plantList.get(randomPlant).getEaten();
+			return plantList.get(randomPlant).getEaten();
 			
-			// Delete plant if it has no more food left
-			if (plantList.get(randomPlant).getFoodAmount() < 0) {
-				plantList.remove(randomPlant);
-			}
-			
-			return food;
 		} else {
 			//System.out.println("returned blank food");
 			return new Food(0);
