@@ -2,6 +2,8 @@ package randomCreatures.Creature;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.newdawn.slick.Graphics;
+
 import randomCreatures.Food;
 import randomCreatures.World;
 import randomCreatures.Creature.Attributes.Color;
@@ -84,6 +86,40 @@ public class Creature {
 			}
 		}
 		
+		// Randomly move
+		int moveX = ThreadLocalRandom.current().nextInt(0, 3);
+		int moveY = ThreadLocalRandom.current().nextInt(0, 3);
+		
+		if (moveX == 0) {
+			x += 1;
+		} else if (moveX == 1) {
+			x -= 1;
+		}
+		
+		if (moveY == 0) {
+			y += 1;
+		} else if (moveY == 1) {
+			y -= 1;
+		}
+		
+		// Loop creature around to opposite end of the world if they go past it
+		if (x < 0) {
+			x = world.getWorldWidth();
+		} else if (x > world.getWorldWidth()) {
+			x = 0;
+		}
+		
+		if (y < 0) {
+			y = world.getWorldLength();
+		} else if (y > world.getWorldLength()) {
+			y = 0;
+		}
+		
+	}
+	
+	public void displayGraphics(Graphics g) {
+		color.setColor(g);
+		shape.displayGraphics(g, x * 10, y * 10);
 	}
 	
 	@Override

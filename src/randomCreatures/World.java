@@ -9,6 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.newdawn.slick.Graphics;
+
 import randomCreatures.Creature.*;
 import randomCreatures.Creature.Attributes.Color;
 import randomCreatures.Creature.Attributes.ColorBlue;
@@ -31,8 +33,8 @@ public class World {
 	private int plantCap;
 	private CreatureFactoryFactory creatureFactoryFactory;
 	
-	private final int WORLD_WIDTH = 50;
-	private final int WORLD_LENGTH = 50;
+	private final int WORLD_WIDTH = 80;
+	private final int WORLD_LENGTH = 60;
 	
 	// Creature Trait Lists
 	private List<Color> colorList;
@@ -194,6 +196,18 @@ public class World {
 
 	}
 	
+	public void displayWorldGraphics(Graphics g) {
+		int creatureCount = 0;
+		
+		for(int i = 0; i < creatureLists.size(); i++) {
+			for(int j = 0; j < creatureLists.get(i).size(); j++) {
+				creatureCount++;
+				creatureLists.get(i).get(j).displayGraphics(g);
+			}
+		}
+		
+	}
+	
 	public void displaySpecies() {
 		// Output strings of everything
 		for(int i = 0; i < creatureLists.size(); i++) {
@@ -212,5 +226,8 @@ public class World {
 			return getRandomCreature();
 		}
 	}
+	
+	public int getWorldWidth() { return WORLD_WIDTH; }
+	public int getWorldLength() { return WORLD_LENGTH; }
 
 }
