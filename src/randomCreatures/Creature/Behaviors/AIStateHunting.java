@@ -9,7 +9,7 @@ public class AIStateHunting implements AIState {
 	public void run(World world, Creature creature) {
 		// If herbivore
 		if (creature.getEatingBehavior().getLetter() == "H") {
-			
+			if creature.
 		// If carnivore
 		} else {
 				

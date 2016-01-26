@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import randomCreatures.Food;
 import randomCreatures.World;
+import randomCreatures.Creature.Creature;
 
 public class EatingCarnivore implements Eating {
 	
@@ -27,6 +28,10 @@ public class EatingCarnivore implements Eating {
 			return new Food(0);
 		}
 		
+	}
+	
+	public Creature findCreature(World world) {
+		return world.getRandomCreature();
 	}
 
 }
