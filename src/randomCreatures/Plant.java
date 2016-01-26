@@ -28,5 +28,7 @@ public class Plant {
 	}
 	
 	public int getFoodAmount() { return foodAmount; }
+	public int getX() { return x; }
+	public int getY() { return y; }
 	
 }

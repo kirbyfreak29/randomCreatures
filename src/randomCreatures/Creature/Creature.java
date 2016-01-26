@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.newdawn.slick.Graphics;
 
 import randomCreatures.Food;
+import randomCreatures.Plant;
 import randomCreatures.World;
 import randomCreatures.Creature.Attributes.Color;
 import randomCreatures.Creature.Attributes.Shape;
@@ -27,6 +28,9 @@ public class Creature {
 	private int size;
 	private int maxHunger, currentHunger, hungerLossRate, foodValue;
 	private int x, y;
+	
+	private Plant plantToFind = null;
+	private Creature creatureToFind = null;
 	
 	// Constructor
 	public Creature(int id, int x, int y, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, int litterSize, double birthrate, int maxAge, 
@@ -151,5 +155,15 @@ public class Creature {
 	public boolean getDead() { return dead; }
 	public int getX() { return x; }
 	public int getY() { return y; }
+	public int getCurrentHunger() { return currentHunger; }
+	public int getMaxHunger() { return maxHunger; }
+	public Breeding getBreedingBehavior() { return breedingBehavior; }
+	public Eating getEatingBehavior() { return eatingBehavior; }
+	public Plant getPlantToFind() { return plantToFind; }
+	public Creature getCreatureToFind() { return creatureToFind; }
+	
+	public void setPlantToFind(Plant plant) { plantToFind = plant; }
+	public void setCreatureToFind(Creature creature) { creatureToFind = creature; }
+	
 	
 }

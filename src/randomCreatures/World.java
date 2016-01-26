@@ -152,7 +152,7 @@ public class World {
 		
 	}
 	
-	public Food getPlant() {
+	public Food getPlantName() {
 		if (plantList.size() > 0) {
 			
 			// Get food from a random plant
@@ -169,6 +169,17 @@ public class World {
 			//System.out.println("returned blank food");
 			return new Food(0);
 		}
+	}
+	
+	public Plant getPlant() {
+		if (plantList.size() > 0) {
+			
+			// Get food from a random plant
+			int randomPlant = ThreadLocalRandom.current().nextInt(0, plantList.size());
+			return plantList.get(randomPlant);
+			
+		}
+		return null;
 	}
 	
 	public void addPlant() {

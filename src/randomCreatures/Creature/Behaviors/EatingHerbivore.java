@@ -1,6 +1,7 @@
 package randomCreatures.Creature.Behaviors;
 
 import randomCreatures.Food;
+import randomCreatures.Plant;
 import randomCreatures.World;
 
 public class EatingHerbivore implements Eating {
@@ -20,8 +21,12 @@ public class EatingHerbivore implements Eating {
 	@Override
 	public Food findFood(World world) {
 		
-		return world.getPlant();
+		return world.getPlantName();
 		
+	}
+	
+	public Plant findPlant(World world) {
+		return world.getPlant();
 	}
 
 }
