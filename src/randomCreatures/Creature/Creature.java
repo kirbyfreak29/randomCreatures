@@ -117,9 +117,9 @@ public class Creature {
 		
 	}
 	
-	public void displayGraphics(Graphics g) {
+	public void displayGraphics(Graphics g, int tileSize) {
 		color.setColor(g);
-		shape.displayGraphics(g, x * 10, y * 10);
+		shape.displayGraphics(g, x * tileSize, y * tileSize);
 	}
 	
 	@Override

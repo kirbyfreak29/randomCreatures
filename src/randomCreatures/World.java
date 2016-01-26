@@ -27,14 +27,16 @@ public class World {
 	// Variables
 	private HashMap<Integer, List<Creature>> creatureLists;
 	private HashMap<Integer, CreatureFactory> creatureFactories;
-	private ArrayList<Creature> allCreatures;
+	private List<Creature> allCreatures;
 	private FoodChain foodChain;
-	private int plantAmount;
+	//private int plantAmount;
+	private List<Plant> plantList;
 	private int plantCap;
 	private CreatureFactoryFactory creatureFactoryFactory;
 	
 	private final int WORLD_WIDTH = 80;
 	private final int WORLD_LENGTH = 60;
+	private final int TILE_SIZE = 10;
 	
 	// Creature Trait Lists
 	private List<Color> colorList;
@@ -62,8 +64,14 @@ public class World {
 		foodChain = new FoodChain(creatureFactoryFactory);
 		
 		//plantAmount = ThreadLocalRandom.current().nextInt(500, 1000);
-		plantAmount = 1000; //ThreadLocalRandom.current().nextInt(50, 100);
-		plantCap = 20000;
+//		plantAmount = 1000; //ThreadLocalRandom.current().nextInt(50, 100);
+		plantList = new ArrayList<Plant>();
+		plantCap = 1000;
+		
+		for(int i = 0; i < 100; i++) {
+			addPlant();
+		}
+		
 	}
 	
 	// To be performed every step
@@ -145,20 +153,36 @@ public class World {
 	}
 	
 	public Food getPlant() {
-		if (plantAmount > 0) {
-			plantAmount--;
-			return new Food(ThreadLocalRandom.current().nextInt(10, 15));
+		if (plantList.size() > 0) {
+			
+			// Get food from a random plant
+			int randomPlant = ThreadLocalRandom.current().nextInt(0, plantList.size());
+			Food food = plantList.get(randomPlant).getEaten();
+			
+			// Delete plant if it has no more food left
+			if (plantList.get(randomPlant).getFoodAmount() < 0) {
+				plantList.remove(randomPlant);
+			}
+			
+			return food;
 		} else {
 			//System.out.println("returned blank food");
 			return new Food(0);
 		}
 	}
 	
+	public void addPlant() {
+		plantList.add(new Plant(ThreadLocalRandom.current().nextInt(0, WORLD_WIDTH), 
+				ThreadLocalRandom.current().nextInt(0, WORLD_LENGTH), ThreadLocalRandom.current().nextInt(10, 15),
+				ThreadLocalRandom.current().nextInt(5, 25), TILE_SIZE));
+	}
+	
 	public void growMorePlants() {
 		//plantAmount += ThreadLocalRandom.current().nextInt(300, 500);
-		plantAmount += ThreadLocalRandom.current().nextInt(200, 500);
-		if (plantAmount > plantCap) {
-			plantAmount = plantCap;
+		int toGrow = ThreadLocalRandom.current().nextInt(30, 50);
+		while (plantList.size() <= plantCap && toGrow > 0) {
+			addPlant();
+			toGrow--;
 		}
 	}
 	
@@ -192,18 +216,24 @@ public class World {
 		}
 		
 		System.out.println("Total amount of creatures is: " + creatureCount);
-		System.out.println("Plant amount: " + plantAmount);
+		//System.out.println("Plant amount: " + plantAmount);
 
 	}
 	
 	public void displayWorldGraphics(Graphics g) {
 		int creatureCount = 0;
 		
+		// Display creatures
 		for(int i = 0; i < creatureLists.size(); i++) {
 			for(int j = 0; j < creatureLists.get(i).size(); j++) {
 				creatureCount++;
-				creatureLists.get(i).get(j).displayGraphics(g);
+				creatureLists.get(i).get(j).displayGraphics(g, TILE_SIZE);
 			}
+		}
+		
+		// Display plants
+		for(int i = 0; i < plantList.size(); i++) {
+			plantList.get(i).displayGraphics(g, TILE_SIZE);;
 		}
 		
 	}
