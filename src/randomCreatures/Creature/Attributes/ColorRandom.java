@@ -15,10 +15,12 @@ public class ColorRandom implements Color {
 	}
 
 	@Override
-	public void setColor(Graphics g) {
-		g.setColor(new org.newdawn.slick.Color(rValue, gValue, bValue));
+	public void setColor(Graphics g, boolean currentlySelected) {
+		if (currentlySelected) {
+			g.setColor(new org.newdawn.slick.Color(250, 250, 250));
+		} else {
+			g.setColor(new org.newdawn.slick.Color(rValue, gValue, bValue));
+		}
 	}
 	
-	
-
 }

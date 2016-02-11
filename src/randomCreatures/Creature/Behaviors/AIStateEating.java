@@ -19,7 +19,7 @@ public class AIStateEating implements AIState {
 			}
 			
 			// If plant is gone, start hunting again
-			if (creature.getPlantToFind().doesPlantExist() || creature.getPlantToFind() == null) {
+			if (creature.getPlantToFind() == null) {
 				creature.setState(creature.getHuntingState());
 				return;
 			}
@@ -48,6 +48,14 @@ public class AIStateEating implements AIState {
 		if ((creature.getCurrentHunger() / (double) creature.getMaxHunger()) > 0.7 && ThreadLocalRandom.current().nextInt(0, 100) < 60) {
 			creature.setState(creature.getBreedingState());
 		}
+	}
+	
+	public String toString() {
+		return "Eating";
+	}
+	
+	public String displayInfo() {
+		return "Eating";
 	}
 
 }

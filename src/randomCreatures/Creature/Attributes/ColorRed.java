@@ -10,7 +10,7 @@ public class ColorRed implements Color {
 	}
 
 	@Override
-	public void setColor(Graphics g) {
+	public void setColor(Graphics g, boolean currentlySelected) {
 		g.setColor(new org.newdawn.slick.Color(255, 0, 64));
 	}
 	

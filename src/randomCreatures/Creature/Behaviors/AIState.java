@@ -6,5 +6,7 @@ import randomCreatures.Creature.Creature;
 public interface AIState {
 
 	public void run(World world, Creature creature);
+	public String toString();
+	public String displayInfo();
 	
 }

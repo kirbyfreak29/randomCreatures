@@ -5,6 +5,6 @@ import org.newdawn.slick.Graphics;
 public interface Color {
 	
 	public String toString();
-	public void setColor(Graphics g);
+	public void setColor(Graphics g, boolean currentlySelected);
 
 }

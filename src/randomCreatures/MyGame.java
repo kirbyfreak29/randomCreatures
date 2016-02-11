@@ -46,5 +46,10 @@ public class MyGame extends BasicGame {
 		g.setColor(new org.newdawn.slick.Color(255, 255, 255));
 		g.drawString(Integer.toString(updates), 30, 30);
 	}
+	
+	@Override
+	public void mousePressed(int button, int x, int y) {
+		world.clickCreature(x, y);
+	}
 
 }

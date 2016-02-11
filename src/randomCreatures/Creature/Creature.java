@@ -32,7 +32,10 @@ public class Creature {
 	private boolean dead = false;
 	private int size;
 	private int maxHunger, currentHunger, hungerLossRate, foodValue;
-	private int x, y;
+	private int x, y, width, height;
+	private int targetX, targetY = -1;
+	private boolean targetExists = false;
+	private boolean currentlySelected = false;
 	
 	private Plant plantToFind = null;
 	private Creature creatureToFind = null;
@@ -54,6 +57,7 @@ public class Creature {
 		this.maxHunger = this.currentHunger = maxHunger;
 		this.hungerLossRate = hungerLossRate;
 		this.foodValue = foodValue;
+		width = height = 10;
 	}
 	
 	// "Destructor" (Get rid of all references to self)
@@ -99,8 +103,8 @@ public class Creature {
 		}
 		
 		if (y < 0) {
-			y = world.getWorldLength();
-		} else if (y > world.getWorldLength()) {
+			y = world.getWorldHeight();
+		} else if (y > world.getWorldHeight()) {
 			y = 0;
 		}
 		
@@ -115,8 +119,19 @@ public class Creature {
 	}
 	
 	public void displayGraphics(Graphics g, int tileSize) {
-		color.setColor(g);
+		color.setColor(g, currentlySelected);
 		shape.displayGraphics(g, x * tileSize, y * tileSize);
+	}
+	
+	public void displayInfo(Graphics g, int worldHeight, int worldWidth, int tileSize) {
+		if (!dead) {
+			g.setColor(new org.newdawn.slick.Color(255, 255, 255));
+			g.drawString(eatingBehavior.getLetter() + " " + Integer.toString(x) + ", " + Integer.toString(y), (worldWidth - 10) * tileSize, 1 * tileSize);
+			g.drawString(currentState.toString(), (worldWidth - 10) * tileSize, (int) (2.5 * tileSize));
+			if (currentState.toString() == "Hunting" && targetExists) {
+				g.drawString(Integer.toString(targetX) + ", " + Integer.toString(targetY), (worldWidth - 10) * tileSize, (int) (4 * tileSize));
+			}
+		}
 	}
 	
 	@Override
@@ -140,6 +155,14 @@ public class Creature {
 		}
 	}
 	
+	// Check if given coordinates are inside the creature
+	public boolean coordsInsideCreature(int coordX, int coordY, int tileSize) {
+		if(coordX >= x * tileSize && coordX <= (x * tileSize + tileSize) && coordY >= y * tileSize && coordY <= (y * tileSize + tileSize)) {
+			return true;
+		}
+		return false;
+	}
+	
 	// Getters and Setters //
 	
 	public int getID() { return id; }
@@ -158,12 +181,20 @@ public class Creature {
 	public AIState getEatingState() { return eatingState; }
 	public AIState getHuntingState() { return huntingState; }
 	public AIState getCurrentState() { return currentState; }
+	public boolean getCurrentlySelected() { return currentlySelected; }
+	public int getTargetX() { return targetX; }
+	public int getTargetY() { return targetY; }
+	public boolean getTargetExists() { return targetExists; }
 	
 	public void setPlantToFind(Plant plant) { this.plantToFind = plant; }
 	public void setCreatureToFind(Creature creature) { this.creatureToFind = creature; }
 	public void setState(AIState state) { this.currentState = state; }
 	public void shiftX(int x) { this.x += x; }
 	public void shiftY(int y) { this.y += y; }
+	public void setCurrentlySelected(boolean currentlySelected) { this.currentlySelected = currentlySelected; }
+	public void setTargetX(int targetX) { this.targetX = targetX; }
+	public void setTargetY(int targetY) { this.targetY = targetY; }
+	public void setTargetExists(boolean targetExists) { this.targetExists = targetExists; }
 	
 	
 }

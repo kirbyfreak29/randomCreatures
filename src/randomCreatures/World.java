@@ -35,12 +35,15 @@ public class World {
 	private CreatureFactoryFactory creatureFactoryFactory;
 	
 	private final int WORLD_WIDTH = 80;
-	private final int WORLD_LENGTH = 60;
+	private final int WORLD_HEIGHT = 60;
 	private final int TILE_SIZE = 10;
 	
 	// Creature Trait Lists
 	private List<Color> colorList;
 	private List<Shape> shapeList;
+	
+	// Selected Creature
+	 Creature selectedCreature = null;
 	
 	// Constructor
 	public World() {
@@ -128,7 +131,7 @@ public class World {
 			// Gets the id from the current node creates a random amount of creatures of that species
 			//addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), ThreadLocalRandom.current().nextInt(50, 300));
 			addCreature((int) ((DefaultMutableTreeNode) e.nextElement()).getUserObject(), 25, 
-					ThreadLocalRandom.current().nextInt(0, WORLD_WIDTH + 1), ThreadLocalRandom.current().nextInt(0, WORLD_LENGTH + 1));
+					ThreadLocalRandom.current().nextInt(0, WORLD_WIDTH + 1), ThreadLocalRandom.current().nextInt(0, WORLD_HEIGHT + 1));
 		}
 	}
 	
@@ -187,7 +190,7 @@ public class World {
 	
 	public void addPlant() {
 		plantList.add(new Plant(ThreadLocalRandom.current().nextInt(0, WORLD_WIDTH), 
-				ThreadLocalRandom.current().nextInt(0, WORLD_LENGTH), ThreadLocalRandom.current().nextInt(10, 15),
+				ThreadLocalRandom.current().nextInt(0, WORLD_HEIGHT), ThreadLocalRandom.current().nextInt(10, 15),
 				ThreadLocalRandom.current().nextInt(5, 25), TILE_SIZE));
 	}
 	
@@ -211,6 +214,33 @@ public class World {
 				creatureLists.get(i).add(creatureFactories.get(i).createCreatureFromBirthList());
 			}
 		}
+	}
+	
+	public void clickCreature(int clickX, int clickY) {
+		// Run every creatures' run method
+		allCreatures = new ArrayList<Creature>();
+		for(int i = 0; i < creatureLists.size(); i++) {
+			allCreatures.addAll(creatureLists.get(i));
+		}
+		
+		Collections.shuffle(allCreatures);
+		
+		for(int i = 0; i < allCreatures.size(); i++) {
+			if (allCreatures.get(i).coordsInsideCreature(clickX, clickY, TILE_SIZE)) {
+				if (selectedCreature != null) {
+					selectedCreature.setCurrentlySelected(false);
+				}
+				selectedCreature = allCreatures.get(i);
+				selectedCreature.setCurrentlySelected(true);
+				return;
+			}
+		}
+		
+		// If no creature was selected
+		if (selectedCreature != null) {
+			selectedCreature.setCurrentlySelected(false);
+		}
+		selectedCreature = null;
 	}
 	
 	public void displayWorld() {
@@ -250,6 +280,11 @@ public class World {
 			plantList.get(i).displayGraphics(g, TILE_SIZE);;
 		}
 		
+		// Display selected creature's info
+		if (selectedCreature != null) {
+			selectedCreature.displayInfo(g, WORLD_HEIGHT, WORLD_WIDTH, TILE_SIZE);
+		}
+		
 	}
 	
 	public void displaySpecies() {
@@ -272,6 +307,6 @@ public class World {
 	}
 	
 	public int getWorldWidth() { return WORLD_WIDTH; }
-	public int getWorldLength() { return WORLD_LENGTH; }
+	public int getWorldHeight() { return WORLD_HEIGHT; }
 
 }

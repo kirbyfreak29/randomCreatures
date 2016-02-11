@@ -8,8 +8,6 @@ public class AIStateHunting implements AIState {
 
 	@Override
 	public void run(World world, Creature creature) {
-		int targetX, targetY;
-		boolean targetExists;
 		boolean shouldMove = true;
 		
 		// If herbivore
@@ -22,13 +20,13 @@ public class AIStateHunting implements AIState {
 			} else {
 				// Set up target variables using the plant
 				Plant plant = creature.getPlantToFind();
-				targetX = plant.getX();
-				targetY = plant.getY();
-				targetExists = plant.doesPlantExist();
+				creature.setTargetX(plant.getX());
+				creature.setTargetY(plant.getY());
+				creature.setTargetExists(plant.doesPlantExist());
 				
 					
 				// If the plant doesn't exist anymore, set to null and don't move
-				if (!targetExists) {
+				if (!creature.getTargetExists()) {
 					creature.setPlantToFind(null);
 					shouldMove = false;
 				}
@@ -43,43 +41,50 @@ public class AIStateHunting implements AIState {
 			} else {
 				// Set up target variables using the creature
 				Creature targetCreature = creature.getCreatureToFind();
-				targetX = targetCreature.getX();
-				targetY = targetCreature.getY();
-				targetExists = !targetCreature.getDead();
-				
+				creature.setTargetX(targetCreature.getX());
+				creature.setTargetY(targetCreature.getY());
+				creature.setTargetExists(!targetCreature.getDead());	
 					
 				// If the creature doesn't exist anymore, set to null and don't move
-				if (!targetExists) {
+				if (!creature.getTargetExists()) {
 					creature.setCreatureToFind(null);
 					shouldMove = false;
 				}
 			}
 		}
 		
-		if (targetExists && shouldMove) {
+		if (creature.getTargetExists() && shouldMove) {
 			// Move into eating state if on target
-			if (creature.getX() == targetX && creature.getY() == targetY) {
+			if (creature.getX() == creature.getTargetX() && creature.getY() == creature.getTargetY()) {
 				creature.setState(creature.getEatingState());
 				return;
 			}
 			
 			// If not on target, move towards the target
-			moveTowardsTarget(creature, targetX, targetY);
+			moveTowardsTarget(creature, creature.getX(), creature.getY(), creature.getTargetX(), creature.getTargetY());
 		}
 	}
 	
-	private void moveTowardsTarget(Creature creature, int targetX, int targetY) {
-		if (creature.getX() < targetX) {
+	private void moveTowardsTarget(Creature creature, int x, int y, int targetX, int targetY) {
+		if (x < targetX) {
 			creature.shiftX(1);
-		} else if (creature.getX() > targetX) {
+		} else if (x > targetX) {
 			creature.shiftX(-1);
 		}
 		
-		if (creature.getY() < targetX) {
+		if (y < targetY) {
 			creature.shiftY(1);
-		} else if (creature.getY() > targetX) {
+		} else if (y > targetY) {
 			creature.shiftY(-1);
 		}
+	}
+	
+	public String toString() {
+		return "Hunting";
+	}
+	
+	public String displayInfo() {
+		return "Hunting";
 	}
 
 }

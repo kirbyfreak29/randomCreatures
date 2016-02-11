@@ -15,5 +15,13 @@ public class AIStateBreeding implements AIState {
 			creature.setState(creature.getHuntingState());
 		}
 	}
+	
+	public String toString() {
+		return "Breeding";
+	}
+	
+	public String displayInfo() {
+		return "Breeding";
+	}
 
 }
