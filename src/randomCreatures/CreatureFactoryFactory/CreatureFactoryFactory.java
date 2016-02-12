@@ -30,26 +30,30 @@ public class CreatureFactoryFactory {
 		Shape shape;
 		
 		Eating eatingBehavior;
+		int litterSize;
+		double birthrate;
+		
 		if (getRandomInt(0, 100) < 70) {
 			eatingBehavior = eatingFactory.createEating("herbivore");
 			randomShape = 0;
+			litterSize = getRandomInt(1, 5 + 1); // 5 is the intended max, but it needs to be 6 since the upper bound is not included
+			birthrate = .1;
 		} else {
 			eatingBehavior = eatingFactory.createEating("carnivore");
 			randomShape = 1;
+			litterSize = 1;
+			birthrate = .05;
 		}
 		
 		Breeding breedingBehavior = breedingFactory.createBreeding(getRandomInt(0, breedingFactory.getSize()));
 		
-//		int litterSize = getRandomInt(1, 5);
 //		double birthrate = getRandomDouble(.01, .1);
 //		int maxAge = getRandomInt(50, 150);
 //		int size = getRandomInt(1, 5);
 //		int maxHunger = getRandomInt(30, 70);
 //		int hungerLossRate = getRandomInt(3, 8);
 //		int foodValue = getRandomInt(30, 50) * size;
-		
-		int litterSize = 1;
-		double birthrate = .1;
+	
 		int maxAge = 300;
 		int size = 3;
 		int maxHunger = 500;

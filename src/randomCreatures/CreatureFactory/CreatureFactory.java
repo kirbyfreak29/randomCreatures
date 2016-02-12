@@ -59,8 +59,10 @@ public class CreatureFactory {
 	
 	public void addCreatureToBirthList(int amount, int x, int y) {
 		toBeBirthed += amount;
-		toBeBirthedX.push(x);
-		toBeBirthedY.push(y);
+		for (int i = 0; i < amount; i++) {
+			toBeBirthedX.push(x);
+			toBeBirthedY.push(y);
+		}
 	}
 	
 	public int getID() {

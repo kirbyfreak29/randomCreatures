@@ -196,7 +196,7 @@ public class World {
 	
 	public void growMorePlants() {
 		//plantAmount += ThreadLocalRandom.current().nextInt(300, 500);
-		int toGrow = ThreadLocalRandom.current().nextInt(30, 50);
+		int toGrow = ThreadLocalRandom.current().nextInt(1, 3);
 		while (plantList.size() <= plantCap && toGrow > 0) {
 			addPlant();
 			toGrow--;
