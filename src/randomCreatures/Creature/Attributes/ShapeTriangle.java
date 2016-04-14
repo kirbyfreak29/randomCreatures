@@ -9,6 +9,7 @@ public class ShapeTriangle implements Shape {
 		return "triangle";
 	}
 	
+	// Draw the shape at the given coordinates
 	@Override
 	public void displayGraphics(Graphics g, float x, float y) {
 		g.drawLine(x + 5, y, x + 10, y + 10);

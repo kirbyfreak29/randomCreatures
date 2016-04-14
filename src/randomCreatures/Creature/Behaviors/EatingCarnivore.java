@@ -8,6 +8,7 @@ import randomCreatures.Creature.Creature;
 
 public class EatingCarnivore implements Eating {
 	
+	// Constructor
 	public EatingCarnivore() {
 		
 	}
@@ -16,10 +17,12 @@ public class EatingCarnivore implements Eating {
 		return "carnivorous eating behavior";
 	}
 	
+	// Returns a one-letter representation of the eating behavior
 	public String getLetter() {
 		return "C";
 	}
 
+	// Have a chance to find and eat a random creature in the world
 	@Override
 	public Food findFood(World world) {
 		if (ThreadLocalRandom.current().nextInt(0, 100) <= 10) {
@@ -30,6 +33,7 @@ public class EatingCarnivore implements Eating {
 		
 	}
 	
+	// Get a random creature from the world
 	public Creature findCreature(World world) {
 		return world.getRandomCreature();
 	}

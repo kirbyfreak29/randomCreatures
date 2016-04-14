@@ -33,10 +33,6 @@ public class FoodChain {
 		
 	}
 	
-	public DefaultTreeModel getFoodChain() {
-		return foodChainTree;
-	}
-	
 	// Will eventually be passed a CreatureFactoryFactory to use?
 	public CreatureFactory addSpecies() {
 		
@@ -54,6 +50,11 @@ public class FoodChain {
 		// Return the newly made creature factory
 		return newCreatureFactory;
 		
+	}
+	
+	// Getters and Setters
+	public DefaultTreeModel getFoodChain() {
+		return foodChainTree;
 	}
 
 }

@@ -52,11 +52,13 @@ public class CreatureFactory {
 				maxHunger, hungerLossRate, foodValue);
 	}
 	
+	// Make a new creature using info from the the birthing list and return it
 	public Creature createCreatureFromBirthList() {
 		return new Creature(id, toBeBirthedX.pop(), toBeBirthedY.pop(), shape, color, eatingBehavior, breedingBehavior, litterSize, birthrate, maxAge, size, 
 				maxHunger, hungerLossRate, foodValue);
 	}
 	
+	// Add necessary info to the birthing lists to prepare for a new creature to be born
 	public void addCreatureToBirthList(int amount, int x, int y) {
 		toBeBirthed += amount;
 		for (int i = 0; i < amount; i++) {
@@ -65,6 +67,7 @@ public class CreatureFactory {
 		}
 	}
 	
+	// Getters and Setters
 	public int getID() {
 		return id;
 	}

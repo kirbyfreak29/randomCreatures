@@ -110,28 +110,44 @@ public class Creature {
 		
 	}
 	
+	// Eat the given food
 	public void creatureEat(Food food) {
 		currentHunger += food.getFoodValue();
 		
+		// Make sure the added hunger doesn't cause the current hunger to go over the max value
 		if (currentHunger > maxHunger) {
 			currentHunger = maxHunger;
 		}
 	}
 	
+	// Draw the creature at its location in the given graphics window
 	public void displayGraphics(Graphics g, int tileSize) {
 		color.setColor(g, currentlySelected);
 		shape.displayGraphics(g, x * tileSize, y * tileSize);
 	}
 	
+	// Print some info about the creature to the graphics windows (used for debugging)
 	public void displayInfo(Graphics g, int worldHeight, int worldWidth, int tileSize) {
-		if (!dead) {
-			g.setColor(new org.newdawn.slick.Color(255, 255, 255));
-			g.drawString(eatingBehavior.getLetter() + " " + Integer.toString(x) + ", " + Integer.toString(y), (worldWidth - 10) * tileSize, 1 * tileSize);
-			g.drawString(currentState.toString(), (worldWidth - 10) * tileSize, (int) (2.5 * tileSize));
-			if (currentState.toString() == "Hunting" && targetExists) {
-				g.drawString(Integer.toString(targetX) + ", " + Integer.toString(targetY), (worldWidth - 10) * tileSize, (int) (4 * tileSize));
-			}
+		int leftPosition = 1 * tileSize;
+		int initialSpacing = 5 * tileSize;
+		int lineSpacing = (int) (1.5 * tileSize);
+
+		g.setColor(new org.newdawn.slick.Color(255, 255, 255));
+		
+		g.drawString(eatingBehavior.getLetter() + " " + Integer.toString(x) + ", " + Integer.toString(y), 
+				leftPosition, initialSpacing);
+		g.drawString("Hunger: " + currentHunger + "/" + maxHunger, leftPosition, initialSpacing + lineSpacing);
+		g.drawString("Age: " + currentAge + "/" + maxAge, leftPosition, initialSpacing + 2 * lineSpacing);
+		g.drawString(currentState.toString(), leftPosition, initialSpacing + 3 * lineSpacing);
+		if (currentState.toString() == "Hunting" && targetExists) {
+			g.drawString(Integer.toString(targetX) + ", " + Integer.toString(targetY), leftPosition, initialSpacing + 4 * lineSpacing);
 		}
+	}
+	
+	// Change the creature's color and circle it when it's highlighted
+	public void highlightCreature(Graphics g, int tileSize) {
+		g.setColor(new org.newdawn.slick.Color(255, 255, 255));
+		g.drawOval(x * tileSize - 3, y * tileSize - 3, tileSize + 6, tileSize + 6);
 	}
 	
 	@Override
@@ -142,10 +158,7 @@ public class Creature {
 				
 	}
 	
-	public String getEatingBehaviorLetter() {
-		return eatingBehavior.getLetter();
-	}
-	
+	// Kill the creature and return a food object
 	public Food beEaten() {
 		if (!dead) {
 			dead = true;
@@ -163,8 +176,12 @@ public class Creature {
 		return false;
 	}
 	
-	// Getters and Setters //
+	// Return a letter corresponding to the creature's eating behavior
+	public String getEatingBehaviorLetter() {
+		return eatingBehavior.getLetter();
+	}
 	
+	// Getters and Setters //
 	public int getID() { return id; }
 	public double getBirthrate() { return birthrate; }
 	public int getLitterSize() { return litterSize; }

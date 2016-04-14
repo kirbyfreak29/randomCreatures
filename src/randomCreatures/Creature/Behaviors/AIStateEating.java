@@ -8,6 +8,7 @@ import randomCreatures.Creature.Creature;
 
 public class AIStateEating implements AIState {
 
+	// Perform the eating action according to what the creature's eating type is
 	@Override
 	public void run(World world, Creature creature) {
 		// If herbivore
@@ -25,7 +26,7 @@ public class AIStateEating implements AIState {
 			}
 			
 			// If plant is still there, eat the plant
-			creature.creatureEat(plant.getEaten());
+			creature.creatureEat(plant.beEaten());
 		// If carnivore
 		} else {
 			Creature targetCreature = creature.getCreatureToFind();
@@ -54,6 +55,7 @@ public class AIStateEating implements AIState {
 		return "Eating";
 	}
 	
+	// Unsure why this is duplicated with toString...?
 	public String displayInfo() {
 		return "Eating";
 	}

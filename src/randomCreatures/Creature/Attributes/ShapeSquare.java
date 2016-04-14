@@ -12,6 +12,7 @@ public class ShapeSquare implements Shape {
 		return "square";
 	}
 
+	// Draw the shape at the given coordinates
 	@Override
 	public void displayGraphics(Graphics g, float x, float y) {
 		g.drawRect(x, y, 10, 10);

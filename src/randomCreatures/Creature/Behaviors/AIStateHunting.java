@@ -6,6 +6,7 @@ import randomCreatures.Creature.Creature;
 
 public class AIStateHunting implements AIState {
 
+	// Perform the hunting action according to what the creature's eating type is
 	@Override
 	public void run(World world, Creature creature) {
 		boolean shouldMove = true;
@@ -65,6 +66,7 @@ public class AIStateHunting implements AIState {
 		}
 	}
 	
+	// Shift the target's current position by 1 on a cardinal direction towards the target's current position
 	private void moveTowardsTarget(Creature creature, int x, int y, int targetX, int targetY) {
 		if (x < targetX) {
 			creature.shiftX(1);
@@ -83,6 +85,7 @@ public class AIStateHunting implements AIState {
 		return "Hunting";
 	}
 	
+	// Unsure why this is duplicated with toString...?
 	public String displayInfo() {
 		return "Hunting";
 	}

@@ -11,17 +11,20 @@ import randomCreatures.CreatureFactory.CreatureFactory;
 
 public class CreatureFactoryFactory {
 	
+	// Variables
 	private List<Color> colorList;
 	private List<Shape> shapeList;
 	private BreedingFactory breedingFactory = new BreedingFactory();
 	private EatingFactory eatingFactory = new EatingFactory();
 	private ColorFactory colorFactory = new ColorFactory();
 	
+	// Constructor
 	public CreatureFactoryFactory(List<Color> colorList, List<Shape> shapeList) {
 		this.colorList = colorList;
 		this.shapeList = shapeList;
 	}
 	
+	// Create a new randomized creature factory with the given id
 	public CreatureFactory createCreatureFactory(int id) {
 		//int randomColor = getRandomIndex(colorList);
 		int randomShape; //= getRandomIndex(shapeList);
