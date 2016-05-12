@@ -22,6 +22,12 @@ import randomCreatures.Creature.Behaviors.*;
 import randomCreatures.CreatureFactory.CreatureFactory;
 import randomCreatures.CreatureFactoryFactory.CreatureFactoryFactory;
 
+/**
+ * Represents the world of the simulation
+ * 
+ * @author kirbyfreak29
+ *
+ */
 public class World {
 	
 	// Variables
@@ -45,7 +51,9 @@ public class World {
 	// Selected Creature
 	 Creature selectedCreature = null;
 	
-	// Constructor
+	/**
+	 * Constructor
+	 */
 	public World() {
 		
 		// Initialize lists of creature trait lists
@@ -77,7 +85,9 @@ public class World {
 		
 	}
 	
-	// To be performed every step
+	/**
+	 * Code to be performed every step
+	 */
 	public void run() {
 		
 		// Run every creatures' run method
@@ -106,8 +116,10 @@ public class World {
 		
 	}
 	
-	// Needs to add a new randomly created Creature Factory to the list, create a random amount of creatures, and then add the id to the tree
-	// NOTE: Should I merge this together with populate world?
+	/**
+	 * Adds a new randomly created Creature Factory to the list, creates a random amount of creatures, and then adds the id to the tree
+	 * NOTE: Should I merge this together with populate world?
+	 */
 	public void addNewSpecies() {
 		
 		// Add id to the tree and get the new factory (the FoodChain makes the new factory and adding the id to the tree)
@@ -120,7 +132,9 @@ public class World {
 		creatureLists.put(newFactory.getID(), new ArrayList<Creature>());
 	}
 	
-	// Loops through the FoodChain and add creatures for each node
+	/**
+	 * Loops through the FoodChain and adds creatures for each node
+	 */
 	public void populateWorld() {
 		
 		// Make a depth-first enumeration of the food chain tree
@@ -135,14 +149,23 @@ public class World {
 		}
 	}
 	
-	// Adds the specified amount of creature instances
+	/**
+	 * Adds the specified amount of creature instances
+	 * 
+	 * @param id		int, the id of the creature's species
+	 * @param amount	int, the amount of creature's to add
+	 * @param x			int, the x-coordinate to add the creature's at
+	 * @param y			int, the y-coordinate to add the creature's at
+	 */
 	public void addCreature(int id, int amount, int x, int y) {
 		for(int i = 0; i < amount; i++) {
 			creatureLists.get(id).add(creatureFactories.get(id).createCreature(x, y));
 		}
 	}
 	
-	// Destroys dead creatures from the world and removes from the creature list
+	/**
+	 * Destroys dead creatures from the world and removes them from the creature list
+	 */
 	public void clearDeadCreatures() {
 		
 		// Run every creatures' run method
@@ -157,7 +180,9 @@ public class World {
 		
 	}
 	
-	// Gets rid of plants that have no more food left
+	/**
+	 * Gets rid of plants that have no more food left
+	 */
 	public void clearDeadPlants() {
 		for(int i = 0; i < plantList.size(); i++) {
 			if (plantList.get(i).getDepleted()) {
@@ -166,7 +191,11 @@ public class World {
 		}
 	}
 	
-	// Gets some food from a random plant in the world
+	/**
+	 * Gets some food from a random plant in the world
+	 * 
+	 * @return	Food, a Food object from the random plant
+	 */
 	public Food getFoodFromRandomPlant() {
 		if (plantList.size() > 0) {
 			
@@ -180,7 +209,13 @@ public class World {
 		}
 	}
 	
-	// Gets food from a random plant
+	/**
+	 * Gets food from a random plant
+	 * NOTE: Uh, why do I have the same function twice with two different names?  I should look into this,
+	 * I must have had SOME reason...  Stupidity is a likely one.
+	 * 
+	 * @return	Food, a Food object from the random plant
+	 */
 	public Plant getPlant() {
 		if (plantList.size() > 0) {
 			
@@ -192,15 +227,19 @@ public class World {
 		return null;
 	}
 	
-	// Adds a new plant at a random location with a random food value
+	/**
+	 * Adds a new plant at a random location with a random food value
+	 */
 	public void addPlant() {
 		plantList.add(new Plant(ThreadLocalRandom.current().nextInt(0, WORLD_WIDTH), 
 				ThreadLocalRandom.current().nextInt(0, WORLD_HEIGHT), ThreadLocalRandom.current().nextInt(10, 15),
 				ThreadLocalRandom.current().nextInt(5, 25), TILE_SIZE));
 	}
 	
-	// Adds a random amount of plants to the world
-	// NOTE: Should change this so that the random numbers are controlled by the 2 parameters
+	/**
+	 * Adds a random amount of plants to the world
+	 * NOTE: Should change this so that the random numbers are controlled by the 2 parameters
+	 */
 	public void growMorePlants() {
 		//plantAmount += ThreadLocalRandom.current().nextInt(300, 500);
 		int toGrow = ThreadLocalRandom.current().nextInt(1, 3);
@@ -210,12 +249,21 @@ public class World {
 		}
 	}
 	
-	// Adds the given amount of creatures at the given location to the world to the list of creatures to make
+	/**
+	 * Adds the given amount of creatures at the given location to the world to the list of creatures to make
+	 * 
+	 * @param id		int, the id of the creature's species
+	 * @param amount	int, the amount of creature's to add
+	 * @param x			int, the x-coordinate to add the creature's at
+	 * @param y			int, the y-coordinate to add the creature's at
+	 */
 	public void addCreatureToBirthList(int id, int amount, int x, int y) {
 		creatureFactories.get(id).addCreatureToBirthList(amount, x, y);
 	}
 	
-	// Creates all the creatures that are waiting to be created
+	/**
+	 * Creates all the creatures that are waiting to be created
+	 */
 	public void birthCreatures() {
 		for(int i = 0; i < creatureFactories.size(); i++) {
 			int birthAmount = creatureFactories.get(i).getBirthList();
@@ -225,8 +273,13 @@ public class World {
 		}
 	}
 	
-	// Perform a click.  If a creature is under the mouse, select it.  Otherwise, unselect any selected creature.
-	// If multiple creatures are under the mouse, select a random one
+	/**
+	 * Perform a click.  If a creature is under the mouse, select it.  Otherwise, unselect any selected creature.
+	 * If multiple creatures are under the mouse, select a random one
+	 * 
+	 * @param clickX	int, the x-coordinate that was clicked
+	 * @param clickY	int, the y-coordinate that was clicked
+	 */
 	public void clickCreature(int clickX, int clickY) {
 		
 		// Put all creatures in one list
@@ -257,7 +310,9 @@ public class World {
 		selectedCreature = null;
 	}
 	
-	// Display the world textually
+	/**
+	 * Display the world textually
+	 */
 	public void displayWorld() {
 		
 		// Spacing in the console
@@ -280,7 +335,11 @@ public class World {
 
 	}
 	
-	// Display the world graphically
+	/**
+	 * Display the world graphically
+	 * 
+	 * @param g	Graphics, the Graphics object to display to
+	 */
 	public void displayWorldGraphics(Graphics g) {
 		int creatureCount = 0;
 		
@@ -305,7 +364,9 @@ public class World {
 		
 	}
 	
-	// Print out a text based summary of every species
+	/**
+	 * Print out a text based summary of every species
+	 */
 	public void displaySpecies() {
 		// Output strings of everything
 		for(int i = 0; i < creatureLists.size(); i++) {
@@ -315,7 +376,11 @@ public class World {
 		}
 	}
 	
-	// Gets a random creature (currently used temporarily for finding a creature to eat)
+	/**
+	 * Gets a random creature (currently used temporarily for finding a creature to eat)
+	 * 
+	 * @return	Creature, the random Creature
+	 */
 	public Creature getRandomCreature() {
 		List<Creature> randomSpecies = creatureLists.get(ThreadLocalRandom.current().nextInt(0, creatureLists.size()));
 		if (randomSpecies.size() > 0) {

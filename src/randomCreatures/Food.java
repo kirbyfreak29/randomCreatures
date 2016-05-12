@@ -1,11 +1,20 @@
 package randomCreatures;
 
+/**
+ * Represents an instance of food.
+ * 
+ * @author kirbyfreak29
+ */
 public class Food {
 	
 	// Variables
 	int foodValue;
 	
-	// Constructor
+	
+	/**
+	 * Constructor
+	 * @param foodValue	int, the value of the food
+	 */
 	public Food(int foodValue) {
 		this.foodValue = foodValue;
 	}

@@ -7,12 +7,15 @@ import javax.swing.tree.MutableTreeNode;
 import randomCreatures.Creature.*;
 import randomCreatures.CreatureFactory.CreatureFactory;
 import randomCreatures.CreatureFactoryFactory.CreatureFactoryFactory;
-/*
+
+/**
  * A representation of the food chains of creatures using a tree data structure,
  * with CreatureFactories (or some form of Creature ID?) contained in the nodes.
  * 
  * This class will also function as the subject of an observer pattern, with all
  * Creature objects being the clients in order to keep 
+ * 
+ * @author kirbyfreak29
  */
 public class FoodChain {
 	
@@ -23,7 +26,11 @@ public class FoodChain {
 	private int nextAvailableId = 0;
 	private CreatureFactoryFactory creatureFactoryFactory;
 	
-	// Constructor
+	/**
+	 * Constructor
+	 * 
+	 * @param creatureFactoryFactory	CreatureFactoryFactory, the Factory to use to create the creatureFactories
+	 */
 	public FoodChain(CreatureFactoryFactory creatureFactoryFactory) {
 		
 		this.creatureFactoryFactory = creatureFactoryFactory;
@@ -33,7 +40,12 @@ public class FoodChain {
 		
 	}
 	
-	// Will eventually be passed a CreatureFactoryFactory to use?
+	/**
+	 * Adds a species to the foodChain using the creatureFactoryFactory
+	 * NOTE: This function might eventually be passed a CreatureFactoryFactory to use?
+	 * 
+	 * @return	CreatureFactory, the resulting CreatureFactory for the new species
+	 */
 	public CreatureFactory addSpecies() {
 		
 		// Change this so that it uses a creatureFactoryFactory instead

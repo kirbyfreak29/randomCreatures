@@ -4,10 +4,17 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+/**
+ * The main class for the randomCreatures project.
+ * Sets up the AppGameContainer and runs it.
+ * 
+ * @author kirbyfreak29
+ */
 public class Main {
 
 	public static void main(String[] args) {
 		
+		// Set up the Game Container and start it
 		try { 
 		    AppGameContainer container = new AppGameContainer(new MyGame("Random Creatures")); 
 		    container.setDisplayMode(800,600,false); 
