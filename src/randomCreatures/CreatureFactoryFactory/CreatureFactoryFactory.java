@@ -9,6 +9,11 @@ import randomCreatures.Creature.Attributes.Shape;
 import randomCreatures.Creature.Behaviors.*;
 import randomCreatures.CreatureFactory.CreatureFactory;
 
+/**
+ * A factory that generates CreatureFactory objects
+ * 
+ * @author kirbyfreak29
+ */
 public class CreatureFactoryFactory {
 	
 	// Variables
@@ -18,13 +23,23 @@ public class CreatureFactoryFactory {
 	private EatingFactory eatingFactory = new EatingFactory();
 	private ColorFactory colorFactory = new ColorFactory();
 	
-	// Constructor
+	/**
+	 * Constructor
+	 * 
+	 * @param colorList	List<Color>, the list of Color objects able to be used
+	 * @param shapeList	List<Shape>, the list of Shape objects able to be used
+	 */
 	public CreatureFactoryFactory(List<Color> colorList, List<Shape> shapeList) {
 		this.colorList = colorList;
 		this.shapeList = shapeList;
 	}
 	
-	// Create a new randomized creature factory with the given id
+	/**
+	 * Create a new randomized creature factory with the given id
+	 * 
+	 * @param id	int, the id to use for the CreatureFactory
+	 * @return		CreatureFactory, the created CreatureFactory
+	 */
 	public CreatureFactory createCreatureFactory(int id) {
 		//int randomColor = getRandomIndex(colorList);
 		int randomShape; //= getRandomIndex(shapeList);
@@ -67,17 +82,34 @@ public class CreatureFactoryFactory {
 				maxAge, size, maxHunger, hungerLossRate, foodValue);
 	}
 	
-	// Get a random index for the given list according to its size
+	/**
+	 * Get a random index for the given list according to its size
+	 * 
+	 * @param list	List, the given list
+	 * @return		int, the size of the given list
+	 */
 	public int getRandomIndex(List list) {
 		return getRandomInt(0, list.size());
 	}
 	
-	// Get random double between the two numbers given
+	/**
+	 * Get random double between the two numbers given
+	 * 
+	 * @param low	double, the low bound (inclusive)
+	 * @param high	double, the high bound (exclusive)
+	 * @return		double, the randomly generated double
+	 */
 	public double getRandomDouble(double low, double high) {
 		return ThreadLocalRandom.current().nextDouble(low, high);
 	}
 	
-	// Get random int between the two numbers given
+	/**
+	 * Get random int between the two numbers given
+	 * 
+	 * @param low	int, the low bound (inclusive)
+	 * @param high	int, the high bound (exclusive)
+	 * @return		int, the randomly generated int
+	 */
 	public int getRandomInt(int low, int high) {
 		return ThreadLocalRandom.current().nextInt(low, high);
 	}

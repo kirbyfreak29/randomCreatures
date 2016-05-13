@@ -6,10 +6,17 @@ import randomCreatures.Plant;
 import randomCreatures.World;
 import randomCreatures.Creature.Creature;
 
+/**
+ * Represents the AI State of eating
+ * 
+ * @author kirbyfreak29
+ */
 public class AIStateEating implements AIState {
 
-	// Perform the eating action according to what the creature's eating type is
 	@Override
+	/**
+	 * Perform the eating action according to what the creature's eating type is
+	 */
 	public void run(World world, Creature creature) {
 		// If herbivore
 		if (creature.getEatingBehavior().getLetter() == "H") {
@@ -51,11 +58,16 @@ public class AIStateEating implements AIState {
 		}
 	}
 	
+	/**
+	 * Returns a string representation of the AI state
+	 */
 	public String toString() {
 		return "Eating";
 	}
 	
-	// Unsure why this is duplicated with toString...?
+	/**
+	 * Unsure why this is duplicated with toString...?
+	 */
 	public String displayInfo() {
 		return "Eating";
 	}

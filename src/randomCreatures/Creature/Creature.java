@@ -1,7 +1,5 @@
 package randomCreatures.Creature;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.newdawn.slick.Graphics;
 
 import randomCreatures.Food;
@@ -11,6 +9,11 @@ import randomCreatures.Creature.Attributes.Color;
 import randomCreatures.Creature.Attributes.Shape;
 import randomCreatures.Creature.Behaviors.*;
 
+/**
+ * Represents a creature
+ * 
+ * @author kirbyfreak29
+ */
 public class Creature {
 	
 	// Variables
@@ -40,9 +43,26 @@ public class Creature {
 	private Plant plantToFind = null;
 	private Creature creatureToFind = null;
 	
-	// Constructor
-	public Creature(int id, int x, int y, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, int litterSize, double birthrate, int maxAge, 
-			int size, int maxHunger, int hungerLossRate, int foodValue) {
+	/**
+	 * Constructor
+	 * 
+	 * @param id				int, the id of the creature's species
+	 * @param x					int, the x-coordinate of the creature
+	 * @param y					int, the x-coordinate of the creature
+	 * @param shape				Shape, the shape of the creature
+	 * @param color				Color, the color of the creature
+	 * @param eatingBehavior	Eating, the eating behavior the creature uses
+	 * @param breedingBehavior	Breeding, the breeding behavior the creature uses
+	 * @param litterSize		int, the size of the creature's litter
+	 * @param birthrate			double, how easily the creature can give birth
+	 * @param maxAge			int, the age a creature dies at
+	 * @param size				int, the size of the creature (higher = larger)
+	 * @param maxHunger			int, the amount of food a creature can hold
+	 * @param hungerLossRate	int, how fast a creature uses up stored food
+	 * @param foodValue			int, how much food the creature gives if eaten
+	 */
+	public Creature(int id, int x, int y, Shape shape, Color color, Eating eatingBehavior, Breeding breedingBehavior, int litterSize, 
+			double birthrate, int maxAge, int size, int maxHunger, int hungerLossRate, int foodValue) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
@@ -60,7 +80,9 @@ public class Creature {
 		width = height = 10;
 	}
 	
-	// "Destructor" (Get rid of all references to self)
+	/**
+	 * "Destructor" (Get rid of all references to self)
+	 */
 	public void destroy() {
 		shape = null;
 		color = null;
@@ -68,8 +90,12 @@ public class Creature {
 		eatingBehavior = null;
 	}
 	
-	// To be performed every step
-	// Unsure if giving the Creature access to the world is safe...
+	
+	/**
+	 * Code to be performed every step
+	 * NOTE: Unsure if giving the Creature access to the world is safe...
+	 * @param world	World, the world the creature is in
+	 */
 	public void run(World world) {
 		
 //		// Use the current breeding behavior
@@ -110,7 +136,11 @@ public class Creature {
 		
 	}
 	
-	// Eat the given food
+	/**
+	 * Eat the given food
+	 * 
+	 * @param food	Food, the food to be eaten
+	 */
 	public void creatureEat(Food food) {
 		currentHunger += food.getFoodValue();
 		
@@ -120,20 +150,36 @@ public class Creature {
 		}
 	}
 	
-	// Draw the creature at its location in the given graphics window
+	/**
+	 * Draw the creature at its location in the given graphics window
+	 * 
+	 * @param g			Graphics, the graphics object to draw to
+	 * @param tileSize	int, the size of the tiles in the grid
+	 */
 	public void displayGraphics(Graphics g, int tileSize) {
 		color.setColor(g, currentlySelected);
 		shape.displayGraphics(g, x * tileSize, y * tileSize);
 	}
 	
-	// Print some info about the creature to the graphics windows (used for debugging)
+	/**
+	 * Print some info about the creature to the graphics windows (used for debugging)
+	 * 
+	 * @param g				Graphics, the Graphics object to print the text to
+	 * @param worldHeight	int, the height of the world
+	 * @param worldWidth	int, the width of the world
+	 * @param tileSize		int, the size of the tiles in the grid
+	 */
 	public void displayInfo(Graphics g, int worldHeight, int worldWidth, int tileSize) {
+		
+		// Spacing variables
 		int leftPosition = 1 * tileSize;
 		int initialSpacing = 5 * tileSize;
 		int lineSpacing = (int) (1.5 * tileSize);
 
+		// Set the draw color to white
 		g.setColor(new org.newdawn.slick.Color(255, 255, 255));
 		
+		// Draw the text
 		g.drawString(eatingBehavior.getLetter() + " " + Integer.toString(x) + ", " + Integer.toString(y), 
 				leftPosition, initialSpacing);
 		g.drawString("Hunger: " + currentHunger + "/" + maxHunger, leftPosition, initialSpacing + lineSpacing);
@@ -144,13 +190,21 @@ public class Creature {
 		}
 	}
 	
-	// Change the creature's color and circle it when it's highlighted
+	/**
+	 * Change the creature's color and circle it when it's highlighted
+	 * 
+	 * @param g			Graphics, the Graphics object to print the text to
+	 * @param tileSize	int, the size of the tiles in the grid
+	 */
 	public void highlightCreature(Graphics g, int tileSize) {
 		g.setColor(new org.newdawn.slick.Color(255, 255, 255));
 		g.drawOval(x * tileSize - 3, y * tileSize - 3, tileSize + 6, tileSize + 6);
 	}
 	
 	@Override
+	/**
+	 * Returna a String representation of the Creature
+	 */
 	public String toString() {
 		return "Creature with id of " + Integer.toString(id) + ", with a " + shape.toString() + " shape, the color of " + color.toString() + 
 				" a birthrate of " + birthrate + ", and a max age of " + maxAge + ".\n\t" + "It has a " + breedingBehavior + " and a " + 
@@ -158,17 +212,29 @@ public class Creature {
 				
 	}
 	
-	// Kill the creature and return a food object
+	/**
+	 * Kill the creature and return a food object
+	 * 
+	 * @return	Food, the food object the dead creature created
+	 */
 	public Food beEaten() {
 		if (!dead) {
 			dead = true;
 			return new Food(foodValue);
 		} else {
+			// Return a blank food if the creature is already dead but someone is eating it currently
 			return new Food(0);
 		}
 	}
 	
-	// Check if given coordinates are inside the creature
+	/**
+	 * Check if given coordinates are inside the creature
+	 * 
+	 * @param coordX	int, the x-coordinate to check
+	 * @param coordY	int, the y-coordinate to check
+	 * @param tileSize	int, the size of the tiles in the grid
+	 * @return
+	 */
 	public boolean coordsInsideCreature(int coordX, int coordY, int tileSize) {
 		if(coordX >= x * tileSize && coordX <= (x * tileSize + tileSize) && coordY >= y * tileSize && coordY <= (y * tileSize + tileSize)) {
 			return true;
@@ -176,7 +242,10 @@ public class Creature {
 		return false;
 	}
 	
-	// Return a letter corresponding to the creature's eating behavior
+	/**
+	 * Return a letter corresponding to the creature's eating behavior
+	 * @return	String, the letter
+	 */
 	public String getEatingBehaviorLetter() {
 		return eatingBehavior.getLetter();
 	}
