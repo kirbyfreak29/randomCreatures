@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
  * @author kirbyfreak29
  * 
  * **NOTE!!** Slick2D is outdated and no longer supported, I should look into porting this to something supported...
+ * Possibly look at libgdx?
  */
 public class Main {
 
