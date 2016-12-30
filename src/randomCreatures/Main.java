@@ -9,6 +9,8 @@ import org.newdawn.slick.SlickException;
  * Sets up the AppGameContainer and runs it.
  * 
  * @author kirbyfreak29
+ * 
+ * **NOTE!!** Slick2D is outdated and no longer supported, I should look into porting this to something supported...
  */
 public class Main {
 
