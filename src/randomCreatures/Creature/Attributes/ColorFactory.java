@@ -2,8 +2,6 @@ package randomCreatures.Creature.Attributes;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.newdawn.slick.Graphics;
-
 /**
  * A factory that generates randomly created Color objects
  * NOTE: Should eventually have ColorFactories generate specific RandomColors for different colors too
